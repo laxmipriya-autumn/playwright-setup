@@ -1,0 +1,321 @@
+{{ 'single-image-tabs.css' | asset_url | stylesheet_tag }}
+{%- liquid
+    assign full_width = section.settings.full_width
+    assign tab1_title = section.settings.tab1_title
+    assign tab1_image = section.settings.tab1_image
+    assign tab1_image_mobile = section.settings.tab1_image_mobile
+    assign tab1_link = section.settings.tab1_link
+    assign tab1_clickable = section.settings.tab1_clickable
+    assign tab2_title = section.settings.tab2_title
+    assign tab2_image = section.settings.tab2_image
+    assign tab2_image_mobile = section.settings.tab2_image_mobile
+    assign tab2_link = section.settings.tab2_link
+    assign tab2_clickable = section.settings.tab2_clickable
+    assign disable_top_spacing = section.settings.disable_top_spacing
+    assign disable_bottom_spacing = section.settings.disable_bottom_spacing
+    assign priority = 'low'
+    if section.index == 1
+        assign priority = 'high'
+    endif
+-%}
+
+<style>
+/* Mobile/Desktop Image Display Control */
+.single-image--mobile {
+    display: none !important;
+}
+
+.single-image--desktop {
+    display: block !important;
+}
+
+@media screen and (max-width: 768px) {
+    .single-image--mobile {
+        display: block !important;
+    }
+    
+    .single-image--desktop {
+        display: none !important;
+    }
+}
+
+/* Tab Content Link Styles */
+.tab-content-link {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    transition: opacity 0.3s ease;
+}
+
+.tab-content-link:hover {
+    opacity: 0.95;
+}
+
+/* Image Container */
+.tab-image-container {
+    width: 100%;
+    position: relative;
+}
+
+.tab-image-container img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* Placeholder Styles */
+.thb-placeholder {
+    width: 100%;
+    background: #f5f5f5;
+}
+
+.thb-placeholder svg {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+</style>
+
+<div class="single-image-tabs full-width--{{ full_width }} section-spacing{% if disable_top_spacing %} section-spacing--disable-top{% endif %}{% if disable_bottom_spacing %} section-spacing--disable-bottom{% endif %}">
+    <div class="image-tabs-wrapper">
+        <!-- Tab Navigation -->
+        <div class="tab-navigation">
+            <button class="tab-button active" data-tab="tab1">{{ tab1_title }}</button>
+            <button class="tab-button" data-tab="tab2">{{ tab2_title }}</button>
+        </div>
+
+        <!-- Tab Content -->
+        <div class="tab-content-wrapper">
+            <!-- Tab 1 Content -->
+            <div class="tab-content active" id="tab1">
+                {%- if tab1_clickable and tab1_link != blank -%}
+                    <a href="{{ tab1_link }}" class="tab-content-link">
+                {%- endif -%}
+                
+                <div class="tab-image-container">
+                    {%- comment -%} Mobile Image (only shows on mobile) {%- endcomment -%}
+                    {%- if tab1_image_mobile and tab1_image_mobile.src -%}
+                        <img src="{{ tab1_image_mobile | image_url: width: tab1_image_mobile.width }}" 
+                             alt="{{ tab1_image_mobile.alt | escape }}"
+                             class="single-image--mobile"
+                             loading="{{ priority }}"
+                             width="{{ tab1_image_mobile.width }}"
+                             height="{{ tab1_image_mobile.height }}">
+                    {%- endif -%}
+                    
+                    {%- comment -%} Desktop Image {%- endcomment -%}
+                    {%- if tab1_image and tab1_image.src -%}
+                        <img src="{{ tab1_image | image_url: width: tab1_image.width }}" 
+                             alt="{{ tab1_image.alt | escape }}"
+                             class="{% if tab1_image_mobile and tab1_image_mobile.src %}single-image--desktop{% endif %}"
+                             loading="{{ priority }}"
+                             width="{{ tab1_image.width }}"
+                             height="{{ tab1_image.height }}">
+                    {%- else -%}
+                        <div class="thb-placeholder{% if tab1_image_mobile and tab1_image_mobile.src %} single-image--desktop{% endif %}">
+                            {{ 'lifestyle-1' | placeholder_svg_tag }}
+                        </div>
+                    {%- endif -%}
+                </div>
+                
+                {%- if tab1_clickable and tab1_link != blank -%}
+                    </a>
+                {%- endif -%}
+            </div>
+
+            <!-- Tab 2 Content -->
+            <div class="tab-content" id="tab2">
+                {%- if tab2_clickable and tab2_link != blank -%}
+                    <a href="{{ tab2_link }}" class="tab-content-link">
+                {%- endif -%}
+                
+                <div class="tab-image-container">
+                    {%- comment -%} Mobile Image (only shows on mobile) {%- endcomment -%}
+                    {%- if tab2_image_mobile and tab2_image_mobile.src -%}
+                        <img src="{{ tab2_image_mobile | image_url: width: tab2_image_mobile.width }}" 
+                             alt="{{ tab2_image_mobile.alt | escape }}"
+                             class="single-image--mobile"
+                             loading="{{ priority }}"
+                             width="{{ tab2_image_mobile.width }}"
+                             height="{{ tab2_image_mobile.height }}">
+                    {%- endif -%}
+                    
+                    {%- comment -%} Desktop Image {%- endcomment -%}
+                    {%- if tab2_image and tab2_image.src -%}
+                        <img src="{{ tab2_image | image_url: width: tab2_image.width }}" 
+                             alt="{{ tab2_image.alt | escape }}"
+                             class="{% if tab2_image_mobile and tab2_image_mobile.src %}single-image--desktop{% endif %}"
+                             loading="{{ priority }}"
+                             width="{{ tab2_image.width }}"
+                             height="{{ tab2_image.height }}">
+                    {%- else -%}
+                        <div class="thb-placeholder{% if tab2_image_mobile and tab2_image_mobile.src %} single-image--desktop{% endif %}">
+                            {{ 'lifestyle-2' | placeholder_svg_tag }}
+                        </div>
+                    {%- endif -%}
+                </div>
+                
+                {%- if tab2_clickable and tab2_link != blank -%}
+                    </a>
+                {%- endif -%}
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+(function() {
+    'use strict';
+    
+    function initTabs() {
+        const tabButtons = document.querySelectorAll('.single-image-tabs .tab-button');
+        const tabContents = document.querySelectorAll('.single-image-tabs .tab-content');
+
+        if (!tabButtons.length || !tabContents.length) return;
+
+        tabButtons.forEach(function(button) {
+            button.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                
+                const targetTab = this.getAttribute('data-tab');
+
+                // Remove active class from all buttons and contents
+                tabButtons.forEach(function(btn) {
+                    btn.classList.remove('active');
+                });
+                
+                tabContents.forEach(function(content) {
+                    content.classList.remove('active');
+                });
+
+                // Add active class to clicked button and corresponding content
+                this.classList.add('active');
+                const targetContent = document.getElementById(targetTab);
+                if (targetContent) {
+                    targetContent.classList.add('active');
+                }
+            });
+        });
+    }
+
+    // Initialize on DOM ready
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initTabs);
+    } else {
+        initTabs();
+    }
+})();
+</script>
+
+{% schema %}
+{
+    "name": "Single Image with Tabs",
+    "class": "section-single-image-tabs",
+    "settings": [
+        {
+            "type": "header",
+            "content": "Tab 1 Settings"
+        },
+        {
+            "type": "text",
+            "id": "tab1_title",
+            "label": "Tab 1 Title",
+            "default": "MEN"
+        },
+        {
+            "type": "image_picker",
+            "id": "tab1_image",
+            "label": "Tab 1 Desktop Image"
+        },
+        {
+            "type": "image_picker",
+            "id": "tab1_image_mobile",
+            "label": "Tab 1 Mobile Image (optional)",
+            "info": "This image will ONLY show on mobile devices (768px and below)"
+        },
+        {
+            "type": "checkbox",
+            "id": "tab1_clickable",
+            "label": "Make Tab 1 Image Clickable",
+            "default": false,
+            "info": "When enabled, the entire image becomes clickable"
+        },
+        {
+            "type": "url",
+            "id": "tab1_link",
+            "label": "Tab 1 Link",
+            "info": "Enter collection URL (e.g., /collections/men) or any other page URL"
+        },
+        {
+            "type": "header",
+            "content": "Tab 2 Settings"
+        },
+        {
+            "type": "text",
+            "id": "tab2_title",
+            "label": "Tab 2 Title",
+            "default": "WOMEN"
+        },
+        {
+            "type": "image_picker",
+            "id": "tab2_image",
+            "label": "Tab 2 Desktop Image"
+        },
+        {
+            "type": "image_picker",
+            "id": "tab2_image_mobile",
+            "label": "Tab 2 Mobile Image (optional)",
+            "info": "This image will ONLY show on mobile devices (768px and below)"
+        },
+        {
+            "type": "checkbox",
+            "id": "tab2_clickable",
+            "label": "Make Tab 2 Image Clickable",
+            "default": false,
+            "info": "When enabled, the entire image becomes clickable"
+        },
+        {
+            "type": "url",
+            "id": "tab2_link",
+            "label": "Tab 2 Link",
+            "info": "Enter collection URL (e.g., /collections/women) or any other page URL"
+        },
+        {
+            "type": "header",
+            "content": "Layout"
+        },
+        {
+            "type": "checkbox",
+            "id": "full_width",
+            "label": "Make section full width",
+            "default": false
+        },
+        {
+            "type": "header",
+            "content": "Spacing"
+        },
+        {
+            "type": "checkbox",
+            "id": "disable_top_spacing",
+            "default": false,
+            "label": "Remove top spacing"
+        },
+        {
+            "type": "checkbox",
+            "id": "disable_bottom_spacing",
+            "default": false,
+            "label": "Remove bottom spacing"
+        }
+    ],
+    "presets": [
+        {
+            "name": "Single Image with Tabs"
+        }
+    ],
+    "enabled_on": {
+        "templates": ["*"],
+        "groups": ["header", "footer"]
+    }
+}
+{% endschema %}

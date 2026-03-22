@@ -1,0 +1,107 @@
+{{ 'store-locator.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'store-locator.js' | asset_url }}" defer="defer"></script>
+
+<style>
+  .store-locator {
+    padding-top: {{ section.settings.padding_top_mobile | default: 24 }}px;
+    padding-bottom: {{ section.settings.padding_bottom_mobile | default: 24 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .store-locator {
+      padding-top: {{ section.settings.padding_top_desktop | default: 48 }}px;
+      padding-bottom: {{ section.settings.padding_bottom_desktop | default: 48 }}px;
+    }
+  }
+</style>
+
+<section class="store-locator page-width">
+
+  <!-- Search Box -->
+  <div class="search-wrapper">
+    <div class="custom-search-box-container">
+      <span>{% render 'nexus-icons', icon_name: 'search-icon-store-locator', class: 'custom-search-icon' %}</span>
+      <input type="text" id="storeSearch" placeholder="Enter your city name here.." autocomplete="on">
+      <div id="suggestionBox" class="suggestion-box"></div>
+    </div>
+  </div>
+
+  <!-- Store Count -->
+  <div id="storeCount" class="store-count"></div>
+
+  <!-- Store Cards -->
+  <div id="storeCards" class="store-card-big-screens">
+    <template id="storeCardTemplate">
+      <div class="store-card">
+        <div class="first-pair">
+          <span class="location-icon">{% render 'nexus-icons', icon_name: 'location-icon', class: 'store-card-icons' %}</span>
+          <h4 class="store-name">[STORE NAME]</h4>
+        </div>
+
+        <!-- City & State -->
+        <p class="store-city-state">
+          <span class="store-city">[CITY]</span>, 
+          <span class="store-state">[STATE]</span>
+        </p>
+
+        <!-- Address -->
+        <p class="store-address">[STORE ADDRESS]</p>
+
+        <!-- Directions -->
+        <div class="third-pair">
+          <span>{% render 'nexus-icons', icon_name: 'direction-icon', class: 'store-card-icons' %}</span>
+          <p class="store-directions"><a href="#" target="_blank">GET DIRECTIONS</a></p>
+        </div>
+      </div>
+    </template>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Store Locator",
+  "settings": [
+    {
+      "type": "range",
+      "id": "padding_top_mobile",
+      "label": "Padding Top (Mobile)",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_mobile",
+      "label": "Padding Bottom (Mobile)",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "padding_top_desktop",
+      "label": "Padding Top (Desktop)",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_desktop",
+      "label": "Padding Bottom (Desktop)",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "default": 48
+    }
+  ],
+  "presets": [{ "name": "Store Locator" }]
+}
+{% endschema %}

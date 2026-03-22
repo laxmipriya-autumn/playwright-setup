@@ -1,0 +1,356 @@
+{{- 'video.css' | asset_url | stylesheet_tag -}}
+{%- liquid
+  assign section_heading = section.settings.heading
+  assign section_heading_left = section.settings.heading_left
+  assign section_description = section.settings.description
+  assign section_width = section.settings.section_width
+  assign disable_top_spacing = section.settings.disable_top_spacing
+  assign disable_bottom_spacing = section.settings.disable_bottom_spacing
+-%}
+
+<div class="row {{ section_width }}">
+  <div class="small-12 columns">
+    <div class="video-section section-spacing{% if disable_top_spacing %} section-spacing--disable-top{% endif %}{% if disable_bottom_spacing %} section-spacing--disable-bottom{% endif %}">
+      <div class="video-section__inner">
+        {% render 'section-header',
+          section_heading: section_heading,
+          section_description: section_description,
+          section_heading_left: section_heading_left
+        %}
+
+        <div class="video-container">
+          {%- for block in section.blocks -%}
+            {%- case block.type -%}
+              {%- when 'video' -%}
+                {%- liquid
+                  assign video = block.settings.video
+                  assign video_hosted = block.settings.video_hosted
+                  assign video_mobile = block.settings.video_mobile
+                  assign video_autoplay = block.settings.video_autoplay
+                  assign aspect_ratio = block.settings.aspect_ratio
+                  assign use_original_aspect = block.settings.use_original_aspect
+                  assign desktop_height = block.settings.desktop_height
+                  assign mobile_height = block.settings.mobile_height
+                  assign enable_link = block.settings.enable_link
+                  assign video_link = block.settings.video_link
+                  assign open_new_tab = block.settings.open_new_tab
+
+                  assign sizes = '1340x'
+                  if section_width == 'full-width-row' or section_width == 'full-width-row-full'
+                    assign sizes = '1600x'
+                  endif
+                -%}
+
+                <div
+                  class="video-section__container{% if use_original_aspect %} video-section__container--adaptive{% else %} video-aspect--{{ aspect_ratio }}{% endif %}{% if enable_link and video_link != blank %} video-section__container--clickable{% endif %}"
+                  {{ block.shopify_attributes }}
+                  style="--video-desktop-height: {{ desktop_height }}px; --video-mobile-height: {{ mobile_height }}px;"
+                >
+                  {%- if enable_link and video_link != blank -%}
+                    <a
+                      href="{{ video_link }}"
+                      class="video-overlay-link"
+                      {% if open_new_tab %}target="_blank" rel="noopener noreferrer"{% endif %}
+                      aria-label="Video link"
+                    >
+                      <span class="video-link-indicator" aria-hidden="true">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                          <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                          <polyline points="15 3 21 3 21 9"></polyline>
+                          <line x1="10" y1="14" x2="21" y2="3"></line>
+                        </svg>
+                      </span>
+                    </a>
+                  {%- endif -%}
+
+                {%- if video_hosted != blank -%}
+                    {%- if section.index <= 2 -%}
+                      {%- liquid
+                        if video_mobile != blank
+                          assign poster_mobile = video_mobile.preview_image
+                        else
+                          assign poster_mobile = video_hosted.preview_image
+                        endif
+                        assign poster_desktop = video_hosted.preview_image
+                      -%}
+                      {%- if poster_mobile != blank -%}
+                        <link rel="preload" as="image" href="{{ poster_mobile | image_url: width: 800 }}" fetchpriority="high">
+                      {%- endif -%}
+                      {%- if poster_desktop != blank and poster_desktop != poster_mobile -%}
+                        <link rel="preload" as="image" href="{{ poster_desktop | image_url: width: 1600 }}" fetchpriority="high">
+                      {%- endif -%}
+                    {%- endif -%}
+                    {{- video_hosted
+                      | video_tag:
+                        autoplay: video_autoplay,
+                        loop: true,
+                        controls: true,
+                        muted: video_autoplay,
+                        image_size: sizes,
+                        class: 'video-player video-desktop',
+                        preload: 'none',
+                        playsinline: true
+                    -}}
+
+                    {%- if video_mobile != blank -%}
+                      {{- video_mobile
+                        | video_tag:
+                          autoplay: video_autoplay,
+                          loop: true,
+                          controls: true,
+                          muted: video_autoplay,
+                          image_size: '800x',
+                          class: 'video-player video-mobile',
+                          preload: 'none',
+                          playsinline: true
+                      -}}
+                    {%- else -%}
+                      {{- video_hosted
+                        | video_tag:
+                          autoplay: video_autoplay,
+                          loop: true,
+                          controls: true,
+                          muted: video_autoplay,
+                          image_size: '800x',
+                          class: 'video-player video-mobile',
+                          preload: 'none',
+                          playsinline: true
+                      -}}
+                    {%- endif -%}
+
+                  {%- elsif video != blank -%}
+                    {%- if video.type == 'youtube' -%}
+                      <iframe
+                        src="https://www.youtube.com/embed/{{ video.id }}?loop=1{%- if video_autoplay -%}&autoplay=1&mute=1{%- endif -%}&playlist={{ video.id }}&iv_load_policy=3&disablekb=1&controls=1&playsinline=1&rel=0"
+                        frameborder="0"
+                        allow="autoplay; encrypted-media"
+                        allowfullscreen
+                        loading="lazy"
+                        title="{{ block.settings.heading | default: section.settings.heading | escape }}"
+                        tabindex="-1"
+                      ></iframe>
+                    {%- else -%}
+                      <iframe
+                        src="https://player.vimeo.com/video/{{ video.id }}{%- if video_autoplay -%}?background=1{%- endif -%}"
+                        frameborder="0"
+                        allow="autoplay; encrypted-media"
+                        allowfullscreen
+                        loading="lazy"
+                        title="{{ block.settings.heading | default: section.settings.heading | escape }}"
+                        tabindex="-1"
+                      ></iframe>
+                    {%- endif -%}
+                  {%- endif -%}
+                </div>
+              {%- endcase -%}
+            {%- endfor -%}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Video Section",
+  "class": "section-video",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Video"
+    },
+    {
+      "type": "checkbox",
+      "id": "heading_left",
+      "default": false,
+      "label": "Left align heading"
+    },
+    {
+      "type": "richtext",
+      "id": "description",
+      "label": "Description",
+      "default": "<p>Add a short description for this section</p>"
+    },
+    {
+      "type": "select",
+      "id": "section_width",
+      "options": [
+        {
+          "value": "grid",
+          "label": "Grid"
+        },
+        {
+          "value": "full-width-row",
+          "label": "Full width"
+        },
+        {
+          "value": "full-width-row-full",
+          "label": "Full width, no spacing"
+        }
+      ],
+      "default": "grid",
+      "label": "Section width"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "checkbox",
+      "id": "disable_top_spacing",
+      "default": false,
+      "label": "Remove top spacing"
+    },
+    {
+      "type": "checkbox",
+      "id": "disable_bottom_spacing",
+      "default": false,
+      "label": "Remove bottom spacing"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "video",
+      "name": "Video",
+      "settings": [
+        {
+          "type": "header",
+          "content": "Desktop Video"
+        },
+        {
+          "type": "video_url",
+          "id": "video",
+          "label": "Video URL",
+          "accept": ["youtube", "vimeo"],
+          "placeholder": "Use a YouTube or Vimeo URL"
+        },
+        {
+          "type": "video",
+          "id": "video_hosted",
+          "label": "Shopify-hosted video",
+          "info": "Overrides the Video URL setting."
+        },
+        {
+          "type": "range",
+          "id": "desktop_height",
+          "min": 300,
+          "max": 1200,
+          "step": 10,
+          "unit": "px",
+          "label": "Desktop video height",
+          "default": 600,
+          "info": "Height of video on desktop devices"
+        },
+        {
+          "type": "header",
+          "content": "Mobile Video (Optional)"
+        },
+        {
+          "type": "video",
+          "id": "video_mobile",
+          "label": "Mobile video",
+          "info": "Optional: Upload a separate video optimized for mobile. If empty, desktop video will be used."
+        },
+        {
+          "type": "range",
+          "id": "mobile_height",
+          "min": 200,
+          "max": 800,
+          "step": 10,
+          "unit": "px",
+          "label": "Mobile video height",
+          "default": 400,
+          "info": "Height of video on mobile devices"
+        },
+        {
+          "type": "header",
+          "content": "Video Settings"
+        },
+        {
+          "type": "checkbox",
+          "id": "video_autoplay",
+          "default": true,
+          "label": "Autoplay video",
+          "info": "Video will be muted"
+        },
+        {
+          "type": "checkbox",
+          "id": "use_original_aspect",
+          "default": true,
+          "label": "Use adaptive height",
+          "info": "Video will use custom heights. Disable to set a fixed aspect ratio."
+        },
+        {
+          "type": "select",
+          "id": "aspect_ratio",
+          "options": [
+            {
+              "value": "16-9",
+              "label": "16/9 (Landscape)"
+            },
+            {
+              "value": "9-16",
+              "label": "9/16 (Portrait)"
+            },
+            {
+              "value": "4-3",
+              "label": "4/3"
+            },
+            {
+              "value": "3-4",
+              "label": "3/4"
+            },
+            {
+              "value": "square",
+              "label": "Square (1:1)"
+            }
+          ],
+          "default": "16-9",
+          "label": "Fixed aspect ratio",
+          "info": "Only applies when 'Use adaptive height' is disabled"
+        },
+        {
+          "type": "header",
+          "content": "Clickable Video Link"
+        },
+        {
+          "type": "checkbox",
+          "id": "enable_link",
+          "default": false,
+          "label": "Make video clickable",
+          "info": "Add a link to this video"
+        },
+        {
+          "type": "url",
+          "id": "video_link",
+          "label": "Video link URL",
+          "info": "The URL to navigate to when video is clicked"
+        },
+        {
+          "type": "checkbox",
+          "id": "open_new_tab",
+          "default": false,
+          "label": "Open link in new tab"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Video Section",
+      "blocks": [
+        {
+          "type": "video"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 1,
+  "enabled_on": {
+    "templates": ["*"],
+    "groups": ["header", "footer"]
+  }
+}
+{% endschema %}

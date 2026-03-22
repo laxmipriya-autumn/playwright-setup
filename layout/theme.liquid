@@ -1,0 +1,153 @@
+<!doctype html>
+{%- capture dir -%}
+{%- case request.locale.iso_code -%}
+{%- when 'ae','ar','arc','bcc','bqi','ckb','dv','fa','glk','ha','he','he-IL','kwh','ks','ku','mzn','nqo','pnb','ps','sd','ug','ur','yi' -%}
+rtl
+{%- else -%}
+ltr
+{%- endcase -%}
+{%- endcapture -%}
+
+<html class="no-js" lang="{{ request.locale.iso_code }}" dir="{{ dir }}">
+<head>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=5">
+<meta name="theme-color" content="{{ settings.color_body_bg }}">
+<link rel="canonical" href="{{ canonical_url }}">
+
+<link rel="dns-prefetch" href="https://www.googletagmanager.com">
+<link rel="preconnect" href="https://www.googletagmanager.com" crossorigin>
+{% render 'head-preload' %}
+{% render 'gtm-head' %}
+
+{% if settings.favicon != blank %}
+<link rel="icon" href="{{ settings.favicon | image_url: width: 32 }}">
+{% endif %}
+
+<title>
+{{ page_title }}
+{% unless page_title contains shop.name %} – {{ shop.name }}{% endunless %}
+</title>
+
+{% if page_description %}
+<meta name="description" content="{{ page_description | escape }}">
+{% endif %}
+
+{% render 'social-meta-tags' %}
+
+{%- assign app_css_url = 'app.css' | asset_url -%}
+<link rel="preload" href="{{ app_css_url }}" as="style" fetchpriority="high" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="{{ app_css_url }}"></noscript>
+
+{% comment %} Lazy section loading — homepage only, not in theme editor {% endcomment %}
+{% unless request.design_mode %}
+  {% if template == 'index' %}
+    {%- assign lazy_css_url = 'lazy-sections.css' | asset_url -%}
+    <link rel="preload" href="{{ lazy_css_url }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="{{ lazy_css_url }}"></noscript>
+  {% endif %}
+{% endunless %}
+
+<style>
+.thb-header-right,.thb-secondary-area{min-height:40px}
+.thb-secondary-area-item{min-width:24px;min-height:24px}
+.thb-item-count{min-width:18px;min-height:18px}
+</style>
+
+{% render 'head-variables' %}
+
+<script>
+window.theme = {
+routes:{
+root_url:'{{ routes.root_url }}',
+cart_url:'{{ routes.cart_url }}',
+cart_add_url:'{{ routes.cart_add_url }}',
+cart_change_url:'{{ routes.cart_change_url }}',
+cart_update_url:'{{ routes.cart_update_url }}',
+predictive_search_url:'{{ routes.predictive_search_url }}'
+}
+};
+</script>
+
+{{ content_for_header }}
+
+<script>
+document.documentElement.classList.replace('no-js','js');
+</script>
+
+{{ settings.custom_html_head }}
+
+<script type="text/javascript">if(typeof window.hulkappsWishlist === 'undefined') {
+                            window.hulkappsWishlist = {};
+                        }
+                        window.hulkappsWishlist.baseURL = '/apps/advanced-wishlist/api';
+                        window.hulkappsWishlist.hasAppBlockSupport = '1';
+                        </script>
+</head>
+
+<body class="template-{{ template | handle }}{% if customer %} customer-logged-in{% endif %}">
+
+{% render 'gtm-body' %}
+
+<a class="screen-reader-shortcut" href="#main-content">Skip to content</a>
+
+<div id="wrapper">
+
+{% sections 'header-group' %}
+{% sections 'overlay-group' %}
+
+<main id="main-content">
+{{ content_for_layout }}
+</main>
+
+{% sections 'footer-group' %}
+{% render 'cart-drawer' %}
+{% render 'product-drawer' %}
+{% render 'search-drawer' %}
+
+</div>
+
+<script src="{{ 'vendor.min.js' | asset_url }}" defer></script>
+<script src="{{ 'app.js' | asset_url }}" defer></script>
+<script src="{{ 'predictive-search.js' | asset_url }}" defer></script>
+
+{% if settings.enable_quick_view or settings.enable_quick_add %}
+<script src="{{ 'product.js' | asset_url }}" defer></script>
+{% endif %}
+
+{% if request.design_mode %}
+<script src="{{ 'theme-editor.js' | asset_url }}" defer></script>
+{% endif %}
+
+{% if settings.cart_recommendations %}
+<script src="{{ 'product-recommendations.js' | asset_url }}" defer></script>
+{% endif %}
+
+{% if settings.cart_terms_conditions_enable %}
+<script src="{{ 'terms-checkbox.js' | asset_url }}" defer></script>
+{% endif %}
+
+{% render 'back-to-top' %}
+{% render 'typewriter-script' %}
+
+<script src="{{ 'modal-dialog.js' | asset_url }}" defer></script>
+{% if template contains 'product' or template contains 'collection' or template contains 'search' %}
+<script src="{{ 'size-chart.js' | asset_url }}" defer></script>
+{% endif %}
+
+{% comment %} Lazy section loading — homepage only, not in theme editor {% endcomment %}
+{% unless request.design_mode %}
+  {% if template == 'index' %}
+    <script src="{{ 'lazy-sections.js' | asset_url }}" defer></script>
+  {% endif %}
+{% endunless %}
+
+{% comment %} {% if template contains 'cart' or template contains 'product' %}
+  {% render 'razorpay-magic-checkout' %}
+{% endif %} {% endcomment %}
+  {% render 'razorpay-magic-checkout' %}
+{% render 'datalayer' %}
+
+</body>
+</html>

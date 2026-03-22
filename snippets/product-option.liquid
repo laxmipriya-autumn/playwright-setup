@@ -1,0 +1,236 @@
+{%- liquid
+  if sticky
+    assign appended = '--sticky'
+  endif
+
+  assign handle = option.name | replace: ' ', '-' | downcase | escape
+-%}
+{%- case option_type -%}
+  {%- when 'dropdown' -%}
+    <fieldset
+      class="product-form__input product-form__input--dropdown"
+      data-index="option{{ forloop.index }}"
+      data-handle="{{ handle }}"
+    >
+      <div class="form__label" for="Option-{{ section.id }}-{{ forloop.index0 }}{{ appended }}">
+        {{ option.name -}}
+        {{- sizing_link }}
+      </div>
+      <div class="select">
+        <select
+          id="Option-{{ section.id }}-{{ forloop.index0 }}{{ appended }}"
+          name="options[{{ option.name | escape | append: appended }}]"
+          form="{{ product_form_id }}"
+        >
+          {%- for value in option.values -%}
+            <option
+              value="{{ value | escape }}"
+              {% if option.selected_value == value %}
+                selected="selected"
+              {% endif %}
+            >
+              {{ value }}
+            </option>
+          {%- endfor -%}
+        </select>
+        <div class="select-arrow">{%- render 'svg-icons' with 'thb-select' -%}</div>
+      </div>
+    </fieldset>
+  {%- when 'button' -%}
+    <fieldset
+      class="product-form__input product-form__input--block"
+      data-index="option{{ forloop.index }}"
+      data-handle="{{ handle }}"
+    >
+      {%- liquid
+        assign is_size_option = false
+        assign size_keywords = 'size,sizes,Size,Sizes,SIZE,SIZES'
+        assign size_keywords_array = size_keywords | split: ','
+
+        for keyword in size_keywords_array
+          if option.name contains keyword
+            assign is_size_option = true
+            break
+          endif
+        endfor
+      -%}
+
+      <div class="form__label">
+        {{ option.name }} UK: <span class="form__label__value">{{ option.selected_value }}</span>
+        {%- if is_size_option -%}
+          <button
+            type="button"
+            class="size-chart-trigger"
+            data-size-chart-trigger
+            data-option-name="{{ option.name | escape }}"
+          >
+            📏SIZE CHART
+          </button>
+        {%- endif -%}
+        {{ sizing_link }}
+      </div>
+
+      {%- for value in option.values -%}
+        <input
+          type="radio"
+          id="{{ section.id }}-{{ option.position }}-{{ forloop.index0 }}{{ appended }}"
+          name="{{ option.name | append: appended }}"
+          value="{{ value | escape }}"
+          form="{{ product_form_id }}"
+          data-size-value="{{ value | escape }}"
+          data-option-position="{{ option.position }}"
+          {% if option.selected_value == value %}
+            checked
+          {% endif %}
+        >
+        <label for="{{ section.id }}-{{ option.position }}-{{ forloop.index0 }}{{ appended }}">
+          <span>{{ value }}</span>
+        </label>
+      {%- endfor -%}
+    </fieldset>
+  {%- when 'color' -%}
+    {% if product.metafields.custom.related_swatches.value != blank %}
+      {%- liquid
+        assign available_count = 0
+        for related_product in product.metafields.custom.related_swatches.value
+          assign has_available_variants = false
+          for variant in related_product.variants
+            if variant.available
+              assign has_available_variants = true
+              break
+            endif
+          endfor
+          if has_available_variants
+            assign available_count = available_count | plus: 1
+          endif
+        endfor
+
+        # Get current product's color - find it from the related swatches
+        assign current_product_color = ''
+        for related_product in product.metafields.custom.related_swatches.value
+          if related_product.id == product.id
+            if related_product.options_by_name.Color
+              assign current_product_color = related_product.options_by_name.Color.values.first
+            endif
+            break
+          endif
+        endfor
+
+        # If still not found, try from product directly
+        if current_product_color == blank
+          if product.options_by_name.Color
+            assign current_product_color = product.options_by_name.Color.values.first
+          endif
+        endif
+
+        # Last resort - use product title
+        if current_product_color == blank
+          assign current_product_color = product.title
+        endif
+      -%}
+
+      <fieldset class="product-form__input product-form__input--color">
+        <div class="form__label">
+          {{ option.name }}:
+          <span class="form__label__value js-selected-color" data-color-value="{{ current_product_color | escape }}">
+            {{ current_product_color }}
+          </span>
+        </div>
+
+        <div
+          class="related-swatches-container"
+          data-total-swatches="{{ available_count }}"
+          data-current-color="{{ current_product_color | escape }}"
+        >
+          <button class="swatches-nav swatches-nav-prev" aria-label="Previous" type="button">‹</button>
+
+          <div class="related-swatches-slider">
+            <div class="related-swatches-track">
+              {% for related_product in product.metafields.custom.related_swatches.value %}
+                {% comment %} HIDE RELATED SWATCHES WHICH ARE NOT AVAILABLE {% endcomment %}	
+						{% comment %} {%- liquid
+							assign has_available_variants = false
+							for variant in related_product.variants
+								if variant.available
+									assign has_available_variants = true
+									break
+								endif
+							endfor
+							
+							# Get color for this related product
+							assign product_color = related_product.options_by_name['Color'].values.first
+							if product_color == blank
+								assign product_color = related_product.title
+							endif
+						-%}
+
+						{%- if has_available_variants -%} {% endcomment %}
+						 {%- liquid
+                assign product_color = related_product.options_by_name['Color'].values.first
+                if product_color == blank
+                  assign product_color = related_product.title
+                endif
+              -%}
+						 {%- if related_product != blank -%}	
+                  <div
+                    class="related-swatches__item{% if related_product.id == product.id %} is-active{% endif %}"
+                    data-product-handle="{{ related_product.handle }}"
+                    data-product-id="{{ related_product.id }}"
+                    data-color="{{ product_color | escape }}"
+                  >
+                    {% if color_picker_use_variants %}
+                      {% assign img = related_product.featured_image %}
+                      <img
+                        src="{{ img | image_url: width: 72 }}"
+                        alt="{{ product_color }}"
+                        width="72"
+                        height="{{ 72 | divided_by: img.aspect_ratio | round }}"
+                        loading="lazy"
+                        decoding="async"
+                      >
+
+                    {% else %}
+                      <span
+                        class="related-swatches__dot"
+                        style="background-image:url('{{ related_product.featured_image | image_url: width: 40 }}')"
+                      >
+                      </span>
+                    {% endif %}
+                  </div>
+                {%- endif -%}
+              {% endfor %}
+            </div>
+          </div>
+
+          <button class="swatches-nav swatches-nav-next" aria-label="Next" type="button">›</button>
+        </div>
+      </fieldset>
+      {{ 'product-swatches.css' | asset_url | stylesheet_tag }}
+
+      <script src="{{ 'product-swatches.js' | asset_url }}" defer></script>
+    {% else %}
+      {%- liquid
+        assign custom_colors = settings.color_swatches | newline_to_br | split: '<br />'
+        assign key_array = ''
+        assign val_array = ''
+
+        for color in custom_colors
+          assign key = color | split: ':' | first | rstrip
+          assign value = color | split: ':' | last | lstrip
+          assign key_array = key_array | append: ',' | append: key
+          assign val_array = val_array | append: ',' | append: value
+        endfor
+
+        assign key_array = key_array | remove_first: ',' | strip_newlines | downcase | split: ','
+        assign val_array = val_array | remove_first: ',' | split: ','
+
+        assign variant_image_size = '40'
+        case color_picker_size
+          when 'large'
+            assign variant_image_size = '72'
+          when 'xlarge'
+            assign variant_image_size = '104'
+        endcase
+      -%}
+    {% endif %}
+{%- endcase -%}

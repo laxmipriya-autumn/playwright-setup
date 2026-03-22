@@ -1,0 +1,99 @@
+<script>
+  window.dataLayer = window.dataLayer || [];
+
+  if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+    window.deviceName = 'Mobile';
+  } else {
+    window.deviceName = 'Desktop';
+  }
+
+  function pushL1CategoryViewedEvent(categoryData) {
+    dataLayer.push({
+      event: 'L1 category viewed',
+      l1_category_id: categoryData.l1_category_id,
+      l1_category_name: categoryData.l1_category_name,
+      section: categoryData.section
+    });
+  }
+
+  function pushL2CategoryViewedEvent(categoryData) {
+    dataLayer.push({
+      event: 'L2 category viewed',
+      
+      l1_category_name: categoryData.l1_category_name,
+      l2_category_id: categoryData.l2_category_id,
+      l2_category_name: categoryData.l2_category_name,
+      section: categoryData.section,
+      l1_category_id: categoryData.l1_category_id
+    });
+  }
+
+  function pushL3CategoryViewedEvent(categoryData) {
+    dataLayer.push({
+      event: 'L3 category viewed',
+      
+      l1_category_name: categoryData.l1_category_name,
+      l2_category_id: categoryData.l2_category_id,
+      l2_category_name: categoryData.l2_category_name,
+      l3_category_id: categoryData.l3_category_id,
+      l3_category_name: categoryData.l3_category_name,
+      section: categoryData.section,
+      l1_category_id: categoryData.l1_category_id
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', function () {
+    document.addEventListener('click', function (event) {
+      const l3Link = event.target.closest('[data-l3-category-id]');
+      if (l3Link) {
+        const parentL2Link = l3Link.closest('li')?.closest('ul')?.closest('li')?.querySelector('[data-l2-category-id]');
+        const parentL1Link = parentL2Link?.closest('li')?.closest('ul')?.closest('li')?.querySelector('[data-l1-category-id]');
+
+        pushL3CategoryViewedEvent({
+          l1_category_id: parentL1Link?.dataset.l1CategoryId || '',
+          l1_category_name: parentL1Link?.dataset.l1CategoryName || '',
+          l2_category_id: parentL2Link?.dataset.l2CategoryId || '',
+          l2_category_name: parentL2Link?.dataset.l2CategoryName || '',
+          l3_category_id: l3Link.dataset.l3CategoryId || '',
+          l3_category_name: l3Link.dataset.l3CategoryName || '',
+          section: l3Link.dataset.section || 'Top Navigation'
+        });
+        return;
+      }
+
+      const l2Link = event.target.closest('[data-l2-category-id]');
+      if (l2Link) {
+        const parentL1Link = l2Link.closest('li')?.closest('ul')?.closest('li')?.querySelector('[data-l1-category-id]');
+
+        pushL2CategoryViewedEvent({
+          l1_category_id: parentL1Link?.dataset.l1CategoryId || '',
+          l1_category_name: parentL1Link?.dataset.l1CategoryName || '',
+          l2_category_id: l2Link.dataset.l2CategoryId || '',
+          l2_category_name: l2Link.dataset.l2CategoryName || '',
+          section: l2Link.dataset.section || 'Top Navigation'
+        });
+        return;
+      }
+
+      const l1Link = event.target.closest('[data-l1-category-id]');
+      if (!l1Link) return;
+
+      pushL1CategoryViewedEvent({
+        l1_category_id: l1Link.dataset.l1CategoryId || '',
+        l1_category_name: l1Link.dataset.l1CategoryName || '',
+        section: l1Link.dataset.section || 'Top Navigation'
+      });
+    });
+
+    {% if search.performed %}
+      const searchTerm = {{ search.terms | json }};
+      const resultsCount = {{ search.results_count | json }};
+
+      dataLayer.push({
+        event: 'product searched',
+        search_keyword: searchTerm,
+        search_item_count: resultsCount
+      });
+    {% endif %}
+  });
+</script>

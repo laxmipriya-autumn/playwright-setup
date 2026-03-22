@@ -1,0 +1,144 @@
+<div class="side-panel search-drawer" tabindex="-1" id="Search-Drawer">
+  <div class="side-panel-inner">
+    <div class="side-panel-header">
+      <div>
+        <form role="search" method="get" class="searchform" action="{{ routes.search_url }}">
+          <fieldset>
+            <label for="side-panel-search-input" class="visually-hidden">{{ 'sections.header.search' | t }}</label>
+            <input
+              id="side-panel-search-input"
+              type="search"
+              class="search-field"
+              data-rotating-placeholder
+              data-search-input
+              data-search-keyword=""
+              placeholder="Search for anything"
+              value="{{ search.terms | replace: '*', '' }}"
+              name="q"
+              autocomplete="off"
+            >
+          </fieldset>
+        </form>
+        <side-panel-close class="side-panel-close">{%- render 'svg-icons' with 'close' -%}</side-panel-close>
+      </div>
+    </div>
+    {%- if settings.predictive_search_enabled -%}
+      <div class="side-panel-content side-panel-content--has-tabs">
+        {%- comment -%} This area will show SUGGESTIONS when typing {%- endcomment -%}
+      </div>
+    {%- endif -%}
+    <div class="side-panel-content side-panel-content--initial">
+      <div class="thb-predictive-search">
+        {%- comment -%} POPULAR SEARCHES - Only Collection Links {%- endcomment -%}
+        {%- if settings.search_show_popular_searches -%}
+          {%- assign has_popular_collections = false -%}
+          {%- for i in (1..5) -%}
+            {%- assign collection_key = 'search_popular_collection_' | append: i -%}
+            {%- assign popular_collection = settings[collection_key] -%}
+            {%- if popular_collection -%}
+              {%- assign has_popular_collections = true -%}
+              {%- break -%}
+            {%- endif -%}
+          {%- endfor -%}
+
+          {%- if has_popular_collections -%}
+            <div class="thb-predictive-search--popular">
+              <span class="thb-predictive-search--label">
+                {{- settings.search_popular_searches_heading | default: 'POPULAR SEARCHES' -}}
+              </span>
+              <scroll-shadow>
+                <div>
+                  {%- for i in (1..5) -%}
+                    {%- assign collection_key = 'search_popular_collection_' | append: i -%}
+                    {%- assign popular_collection = settings[collection_key] -%}
+                    {%- if popular_collection -%}
+                      <a
+                        href="{{ popular_collection.url }}"
+                        title="{{ popular_collection.title | escape }}"
+                      >
+                        {{- popular_collection.title -}}
+                      </a>
+                    {%- endif -%}
+                  {%- endfor -%}
+                </div>
+              </scroll-shadow>
+            </div>
+          {%- endif -%}
+        {%- endif -%}
+
+        {%- comment -%} POPULAR PICKS - Only Products {%- endcomment -%}
+        {%- if settings.search_show_popular_picks -%}
+          {%- assign total_products = 0 -%}
+          {%- for i in (1..10) -%}
+            {%- assign product_key = 'search_popular_product_' | append: i -%}
+            {%- assign product = settings[product_key] -%}
+            {%- if product -%}
+              {%- assign total_products = total_products | plus: 1 -%}
+            {%- endif -%}
+          {%- endfor -%}
+
+          {%- if total_products > 0 -%}
+            <div class="thb-predictive-search--promotion">
+              <span class="thb-predictive-search--label">
+                {{- settings.search_popular_picks_heading | default: 'POPULAR PICKS' -}}
+              </span>
+              <div class="thb-predictive-search--promotion-products">
+                <ul class="products collection row small-up-1 medium-up-2">
+                  {%- for i in (1..10) -%}
+                    {%- assign product_key = 'search_popular_product_' | append: i -%}
+                    {%- assign product = settings[product_key] -%}
+                    {%- if product -%}
+                      <li class="columns">
+                        {%- render 'product-card', product_card_product: product -%}
+                      </li>
+                    {%- endif -%}
+                  {%- endfor -%}
+                </ul>
+              </div>
+            </div>
+          {%- endif -%}
+        {%- endif -%}
+
+        {%- comment -%} BASED ON YOUR INTEREST - Products {%- endcomment -%}
+        {%- if settings.search_show_interest -%}
+          {%- assign total_interest_products = 0 -%}
+          {%- for i in (1..10) -%}
+            {%- assign interest_product_key = 'search_interest_product_' | append: i -%}
+            {%- assign interest_product = settings[interest_product_key] -%}
+            {%- if interest_product -%}
+              {%- assign total_interest_products = total_interest_products | plus: 1 -%}
+            {%- endif -%}
+          {%- endfor -%}
+
+          {%- if total_interest_products > 0 -%}
+            <div class="thb-predictive-search--promotion">
+              <span class="thb-predictive-search--label">
+                {{- settings.search_interest_heading | default: 'Based On Your Interest' -}}
+              </span>
+              <div class="thb-predictive-search--promotion-products">
+                <ul class="products collection row small-up-1 medium-up-2">
+                  {%- for i in (1..10) -%}
+                    {%- assign interest_product_key = 'search_interest_product_' | append: i -%}
+                    {%- assign interest_product = settings[interest_product_key] -%}
+                    {%- if interest_product -%}
+                      <li class="columns">
+                        {%- render 'product-card', product_card_product: interest_product -%}
+                      </li>
+                    {%- endif -%}
+                  {%- endfor -%}
+                </ul>
+              </div>
+            </div>
+          {%- endif -%}
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</div>
+{%- render 'typewriter-script' -%}
+<link rel="stylesheet" href="{{ 'product-grid.css' | asset_url }}" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="{{ 'predictive-search.css' | asset_url }}" media="print" onload="this.media='all'">
+<noscript>
+  {{ 'product-grid.css' | asset_url | stylesheet_tag }}
+  {{ 'predictive-search.css' | asset_url | stylesheet_tag }}
+</noscript>

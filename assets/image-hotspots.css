@@ -1,0 +1,279 @@
+.image-hotspots--pin-button svg {
+  transition: all 0.25s cubic-bezier(0.104, 0.204, 0.492, 1);
+}
+
+.image-hotspots {
+  display: flex;
+  grid-gap: 30px;
+  flex-direction: column;
+}
+
+@media only screen and (min-width: 1068px) {
+  .image-hotspots {
+    grid-gap: 60px;
+  }
+}
+
+.image-hotspots--container {
+  width: 100%;
+  display: block;
+  position: relative;
+}
+
+.image-hotspots--pin {
+  position: absolute;
+  display: block;
+  top: var(--mobile-top, 0px);
+  left: var(--mobile-left, 0px);
+}
+
+@media only screen and (min-width: 768px) {
+  .image-hotspots--pin {
+    top: var(--desktop-top, 0px);
+    left: var(--desktop-left, 0px);
+  }
+}
+
+/* ── HOTSPOT BUTTON ─────────────────────────────────────────── */
+.image-hotspots--pin-button {
+  width: 22px;
+  height: 22px;
+  background: var(--bg-body, #fff);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.08);
+
+  /* Needed so ::before sits outside without being clipped */
+  position: relative;
+  overflow: visible;
+}
+
+@media only screen and (min-width: 768px) {
+  .image-hotspots--pin-button {
+    width: 25px;
+    height: 25px;
+  }
+}
+
+@media only screen and (min-width: 1068px) {
+  .image-hotspots--pin-button {
+    width: 30px;
+    height: 30px;
+  }
+}
+
+/* ── BREATHING RING — always on, no JS class needed ─────────── */
+/*
+   We use ::before instead of ::after so it renders BEHIND the button face.
+   Because overflow: visible is set above, the ring expands freely outside
+   the button's own border-radius boundary.
+*/
+.image-hotspots--pin-button::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: var(--hotspot-bg-color, #000);
+  opacity: 0;
+  z-index: -1;
+  animation: hotspot-breathe 1.8s ease-out infinite;
+  pointer-events: none;
+}
+
+/* Second ripple ring — delayed so it follows the first */
+.image-hotspots--pin-button::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: var(--hotspot-bg-color, #000);
+  opacity: 0;
+  z-index: -1;
+  animation: hotspot-breathe 1.8s ease-out infinite;
+  animation-delay: 0.7s;
+  pointer-events: none;
+}
+
+@keyframes hotspot-breathe {
+  0% {
+    transform: scale(1);
+    opacity: 0.75;
+  }
+  70% {
+    transform: scale(2.2);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(2.2);
+    opacity: 0;
+  }
+}
+
+/* ── SVG ICON ───────────────────────────────────────────────── */
+.image-hotspots--pin-button svg {
+  display: block;
+  transform-origin: center;
+  width: 8px;
+  height: 8px;
+  position: relative; /* sits above the ::before ring */
+  z-index: 1;
+}
+
+@media only screen and (min-width: 768px) {
+  .image-hotspots--pin-button svg {
+    width: 8px;
+    height: 10px;
+  }
+}
+
+@media only screen and (min-width: 1068px) {
+  .image-hotspots--pin-button svg {
+    width: 10px;
+    height: 12px;
+  }
+}
+
+/* ── BUBBLE (default: opens downward) ───────────────────────── */
+.image-hotspots--pin-bubble {
+  position: absolute;
+  padding: 5px 20px;
+  border-radius: 40px;
+  background: rgba(235, 235, 235, 1);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  top: calc(100% + 8px);
+  bottom: auto;
+  left: 50%;
+  z-index: 2;
+  transform: translate(calc(-50% + var(--content-offset, 0px)));
+  color: var(--color-body);
+  visibility: hidden;
+  opacity: 0;
+  width: max-content;
+  max-width: 260px;
+  font-size: 0.6875rem;
+  line-height: 1.4;
+  transition: visibility 0s 0.25s, opacity 0.25s;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+@media only screen and (min-width: 768px) {
+  .image-hotspots--pin-bubble {
+    max-width: 300px;
+    font-size: 0.75rem;
+    top: calc(100% + 10px);
+  }
+}
+
+@media only screen and (min-width: 1068px) {
+  .image-hotspots--pin-bubble {
+    max-width: 340px;
+    font-size: 0.8125rem;
+  }
+}
+
+.image-hotspots--pin-bubble p {
+  font-size: inherit;
+  margin: 0;
+}
+
+.image-hotspots--pin-bubble p.h6 {
+  font-size: 0.8125rem;
+  margin-bottom: 4px;
+}
+
+@media only screen and (min-width: 768px) {
+  .image-hotspots--pin-bubble p.h6 {
+    font-size: 0.875rem;
+    margin-bottom: 5px;
+  }
+}
+
+@media only screen and (min-width: 1068px) {
+  .image-hotspots--pin-bubble p.h6 {
+    font-size: 0.9375rem;
+  }
+}
+
+.image-hotspots--pin-bubble p:last-child {
+  margin-bottom: 0;
+}
+
+/* ── BUBBLE opens UPWARD when bottom-dot class is present ───── */
+.image-hotspots--pin.bottom-dot .image-hotspots--pin-bubble {
+  top: auto;
+  bottom: calc(100% + 8px);
+}
+
+@media only screen and (min-width: 768px) {
+  .image-hotspots--pin.bottom-dot .image-hotspots--pin-bubble {
+    bottom: calc(100% + 10px);
+  }
+}
+
+/* ── HORIZONTAL POSITIONING ─────────────────────────────────── */
+.image-hotspots--pin.content-left .image-hotspots--pin-bubble {
+  left: 0;
+  transform: translate(calc(0% + var(--content-offset, 0px)));
+}
+
+.image-hotspots--pin.content-right .image-hotspots--pin-bubble {
+  left: auto;
+  right: 0;
+  transform: translate(calc(0% + var(--content-offset, 0px)));
+}
+
+/* ── ACTIVE STATE ───────────────────────────────────────────── */
+.image-hotspots--pin.active svg {
+  transform: rotateZ(315deg);
+}
+
+.image-hotspots--pin.active .image-hotspots--pin-bubble {
+  opacity: 1;
+  visibility: visible;
+  transition: visibility 0s, opacity 0.25s;
+  z-index: 4;
+}
+
+/* Pause both rings when the hotspot is open */
+.image-hotspots--pin.active .image-hotspots--pin-button::before,
+.image-hotspots--pin.active .image-hotspots--pin-button::after {
+  animation-play-state: paused;
+  opacity: 0;
+}
+
+/* ── IMAGE VISIBILITY ───────────────────────────────────────── */
+.image-hotspots--image {
+  overflow: hidden;
+}
+
+.image-hotspots--mobile {
+  display: block;
+}
+
+@media only screen and (min-width: 768px) {
+  .image-hotspots--mobile {
+    display: none;
+  }
+}
+
+.image-hotspots--desktop {
+  display: none;
+}
+
+@media only screen and (min-width: 768px) {
+  .image-hotspots--desktop {
+    display: block;
+  }
+}
+
+/* ── MOBILE BUTTON SIZE OVERRIDE ────────────────────────────── */
+@media (max-width: 767px) {
+  .image-hotspots--pin-button {
+    width: 15px !important;
+    height: 15px !important;
+  }
+}

@@ -1,0 +1,197 @@
+<script>
+if (typeof window.TypewriterPlaceholder === 'undefined') {
+class TypewriterPlaceholder {
+  constructor(input, phrases, options = {}) {
+    this.input = input;
+    this.phrases = phrases.filter(p => p && p.trim() !== '');
+    this.prefix = options.prefix || 'Search for ';
+    this.typeSpeed = options.typeSpeed || 100;
+    this.deleteSpeed = options.deleteSpeed || 50;
+    this.pauseTime = options.pauseTime || 2000;
+    this.currentPhraseIndex = 0;
+    this.currentText = '';
+    this.isDeleting = false;
+    this.isTyping = false;
+    this.lastValue = '';
+    
+    if (this.phrases.length > 0) {
+      this.init();
+    }
+  }
+  
+  init() {
+    // Monitor input value changes continuously
+    this.checkInterval = setInterval(() => {
+      const currentValue = this.input.value || '';
+      
+      // If value changed from something to empty, restart animation
+      if (this.lastValue !== '' && currentValue === '') {
+        this.restart();
+      }
+      
+      // If value is not empty, stop animation
+      if (currentValue !== '') {
+        this.stop();
+      } else if (!this.timeout) {
+        // If empty and not running, start
+        this.start();
+      }
+      
+      this.lastValue = currentValue;
+    }, 100);
+    
+    // Also listen to input events for immediate response
+    this.input.addEventListener('input', () => {
+      const value = this.input.value || '';
+      if (value === '') {
+        setTimeout(() => this.restart(), 100);
+      } else {
+        this.stop();
+      }
+    });
+    
+    // Start animation if input is empty
+    if (!this.input.value || this.input.value.trim() === '') {
+      setTimeout(() => this.start(), 200);
+    }
+  }
+  
+  restart() {
+    this.stop();
+    this.currentText = '';
+    this.isDeleting = false;
+    this.start();
+  }
+  
+  start() {
+    if (this.timeout) return;
+    this.animate();
+  }
+  
+  stop() {
+    if (this.timeout) {
+      clearTimeout(this.timeout);
+      this.timeout = null;
+    }
+  }
+  
+  animate() {
+    // Stop if user has typed something
+    if (this.input.value && this.input.value.trim() !== '') {
+      return;
+    }
+    
+    const currentPhrase = this.phrases[this.currentPhraseIndex];
+    
+    if (this.isDeleting) {
+      this.currentText = currentPhrase.substring(0, this.currentText.length - 1);
+      
+      if (this.currentText === '') {
+        this.isDeleting = false;
+        this.currentPhraseIndex = (this.currentPhraseIndex + 1) % this.phrases.length;
+        this.timeout = setTimeout(() => this.animate(), 500);
+        return;
+      }
+    } else {
+      this.currentText = currentPhrase.substring(0, this.currentText.length + 1);
+      
+      if (this.currentText === currentPhrase) {
+        this.timeout = setTimeout(() => {
+          this.isDeleting = true;
+          this.animate();
+        }, this.pauseTime);
+        this.updatePlaceholder();
+        return;
+      }
+    }
+    
+    this.updatePlaceholder();
+    
+    const speed = this.isDeleting ? this.deleteSpeed : this.typeSpeed;
+    this.timeout = setTimeout(() => this.animate(), speed);
+  }
+  
+  updatePlaceholder() {
+    const fullText = this.prefix + this.currentText;
+    this.input.setAttribute('placeholder', fullText);
+  }
+  
+  destroy() {
+    if (this.checkInterval) {
+      clearInterval(this.checkInterval);
+    }
+    this.stop();
+  }
+}
+window.TypewriterPlaceholder = TypewriterPlaceholder;
+}
+
+(function() {
+  const instances = new Map();
+  
+  function initTypewriter() {
+    const searchInputs = document.querySelectorAll('[data-rotating-placeholder]');
+    
+    searchInputs.forEach((searchInput) => {
+      if (!instances.has(searchInput)) {
+        {%- if settings.search_rotating_placeholder -%}
+        const phrases = [
+          {% if settings.search_placeholder_1 != blank %}'{{ settings.search_placeholder_1 | escape }}',{% endif %}
+          {% if settings.search_placeholder_2 != blank %}'{{ settings.search_placeholder_2 | escape }}',{% endif %}
+          {% if settings.search_placeholder_3 != blank %}'{{ settings.search_placeholder_3 | escape }}',{% endif %}
+          {% if settings.search_placeholder_4 != blank %}'{{ settings.search_placeholder_4 | escape }}',{% endif %}
+          {% if settings.search_placeholder_5 != blank %}'{{ settings.search_placeholder_5 | escape }}'{% endif %}
+        ].filter(p => p && p.trim() !== '');
+        
+        const options = {
+          prefix: 'Search for ',
+          typeSpeed: 100,
+          deleteSpeed: 50,
+          pauseTime: {{ settings.search_placeholder_speed | default: 2000 }}
+        };
+        {%- else -%}
+        const phrases = ['iQushion™', 'Microwobbleboard™', 'Dynamicush™', 'Neodynamic™', 'New Arrivals'];
+        const options = { prefix: 'Search for ', typeSpeed: 100, deleteSpeed: 50, pauseTime: 2000 };
+        {%- endif -%}
+        
+        if (phrases.length > 0) {
+          const instance = new TypewriterPlaceholder(searchInput, phrases, options);
+          instances.set(searchInput, instance);
+        }
+      }
+    });
+  }
+  
+  const observer = new MutationObserver((mutations) => {
+    mutations.forEach((mutation) => {
+      if (mutation.target.classList && mutation.target.classList.contains('active')) {
+        setTimeout(initTypewriter, 100);
+      }
+    });
+  });
+  
+  const searchDrawer = document.querySelector('.search-drawer');
+  if (searchDrawer) {
+    observer.observe(searchDrawer, { attributes: true, attributeFilter: ['class'] });
+  }
+  
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initTypewriter);
+  } else {
+    initTypewriter();
+  }
+  
+  // Re-initialize on page navigation
+  document.addEventListener('shopify:section:load', initTypewriter);
+  
+  // Watch for URL changes (for single-page navigation)
+  let lastUrl = location.href; 
+  new MutationObserver(() => {
+    const url = location.href;
+    if (url !== lastUrl) {
+      lastUrl = url;
+      setTimeout(initTypewriter, 300);
+    }
+  }).observe(document, {subtree: true, childList: true});
+})();
+</script>

@@ -1,0 +1,35 @@
+/* CLS Fix for Header - Prevent Layout Shifts */
+
+/* Reserve space for header to prevent CLS */
+.thb-header-right,
+.thb-secondary-area {
+    /* Minimum height reservation */
+    min-height: 40px;
+    /* Prevent layout shift from icons loading */
+    contain: layout style;
+}
+
+/* Prevent icon layout shifts */
+.thb-secondary-area-item {
+    /* Reserve minimum dimensions */
+    min-width: 24px;
+    min-height: 24px;
+    /* Prevent shifts during load */
+    will-change: auto;
+}
+
+/* Fix SVG icon loading shifts */
+.thb-secondary-area-item svg {
+    display: block;
+    /* Prevent layout shift */
+    contain-intrinsic-size: 24px 24px;
+}
+
+/* Cart count badge - prevent shift */
+.thb-item-count {
+    /* Reserve space */
+    min-width: 18px;
+    min-height: 18px;
+    /* Prevent shift */
+    contain: layout style paint;
+}

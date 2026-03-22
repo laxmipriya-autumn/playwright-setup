@@ -1,0 +1,140 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "custom_css": [
+        "h1,h2,h3,h4,h5,h6 {font-family: \"Cinzel-SemiBold\";}",
+        "p {font-family: \"CormorantGaramond-Medium\";}"
+      ],
+      "settings": {
+        "show_page_title": true,
+        "disable_top_spacing": false,
+        "disable_bottom_spacing": false
+      }
+    },
+    "rich_text_CJLKRD": {
+      "type": "rich-text",
+      "blocks": {
+        "heading_4WPHmx": {
+          "type": "heading",
+          "settings": {
+            "text": "Shipping Policy",
+            "size": "h2"
+          }
+        },
+        "text_cYkK6P": {
+          "type": "text",
+          "settings": {
+            "text": "<ul><li>For all confirmed orders received, the order will be dispatched in 2 to 3 business days. The delivery timeline may vary depending on the time required by courier partner.</li><li>Order once is shipped from our warehouse, the same cannot be cancelled. If you wish to still continue with cancellation, you may refuse accepting delivery when the courier partner comes.</li><li>If you accept the delivery and are not satisfied with your order upon delivery, you can raise a Return request.</li></ul>",
+            "custom_liquid": "",
+            "size": "text-size-regular"
+          }
+        }
+      },
+      "block_order": [
+        "heading_4WPHmx",
+        "text_cYkK6P"
+      ],
+      "name": "Rich text",
+      "settings": {
+        "section_width": "full-width-row",
+        "text_width": "xlarge",
+        "text_position": "left",
+        "text_alignment": "left",
+        "color_bg": "transparent",
+        "color_text": "#151515",
+        "color_links": "#151515",
+        "disable_top_spacing": false,
+        "disable_bottom_spacing": false
+      }
+    },
+    "rich_text_eBhin6": {
+      "type": "rich-text",
+      "blocks": {
+        "heading_VQLkkR": {
+          "type": "heading",
+          "settings": {
+            "text": "Refund Policy",
+            "size": "h2"
+          }
+        },
+        "text_kmEwKr": {
+          "type": "text",
+          "settings": {
+            "text": "<ul><li>For all confirmed orders received, the order will be dispatched in 2 to 3 business days. The delivery timeline may vary depending on the time required by courier partner.</li><li>Order once is shipped from our warehouse, the same cannot be cancelled. If you wish to still continue with cancellation, you may refuse accepting delivery when the courier partner comes.In case, you have cancelled an order within two hours of placing it or before it has been moved to procurement - you will be issued a full refund within 15-20 business days of cancellation of order.</li><li>If due to unavoidable circumstances, or situations beyond our control, your order is not processed, cannot be procured or is not shipped to you within a certain time, the order shall stand cancelled, and the entire amount will be refunded to you; no liability shall be incurred by the either side.</li><li>FitFlop team will refund the paid amount only if the order at delivery is damaged, faulty or if the order is wrong.</li><li>In case your order amount comprised of shipping charges, the refund will be done excluding the shipping charges amount, i.e. Rs. 250.</li><li>Once FitFlop team has initiated a refund in accordance with the Returns Policy, the refund amount is expected to appear in the customer's account within the following time frames:</li><li>COD refunds take 7 to 10 business days to reflect in your bank account after the refund is initiated.</li><li>Prepaid Refund takes 15 to 21 business days, depending on your bank partner, after the refund is initiated.</li><li>If you accept the delivery and are not satisfied with your order upon delivery, you can raise a Return request.</li></ul>",
+            "custom_liquid": "",
+            "size": "text-size-regular"
+          }
+        }
+      },
+      "block_order": [
+        "heading_VQLkkR",
+        "text_kmEwKr"
+      ],
+      "name": "Rich text",
+      "settings": {
+        "section_width": "full-width-row",
+        "text_width": "xlarge",
+        "text_position": "left",
+        "text_alignment": "left",
+        "color_bg": "transparent",
+        "color_text": "#151515",
+        "color_links": "#151515",
+        "disable_top_spacing": false,
+        "disable_bottom_spacing": false
+      }
+    },
+    "rich_text_Cf8yFj": {
+      "type": "rich-text",
+      "blocks": {
+        "heading_bVyKtt": {
+          "type": "heading",
+          "settings": {
+            "text": "COD Policy",
+            "size": "h2"
+          }
+        },
+        "text_DkiG8C": {
+          "type": "text",
+          "settings": {
+            "text": "<ul><li>If you opt to purchase items on COD, you must pay in cash at the time of delivery.</li><li>Refunds for COD orders will only be sent to a bank account, not in cash.</li><li>You must provide your bank account information via your registered email address; our customer service representative will call you to validate your bank account information before processing your refund.</li><li>It will take 7 to 10 business days for the refunds to appear in your account.</li></ul>",
+            "custom_liquid": "",
+            "size": "text-size-regular"
+          }
+        }
+      },
+      "block_order": [
+        "heading_bVyKtt",
+        "text_DkiG8C"
+      ],
+      "name": "Rich text",
+      "settings": {
+        "section_width": "full-width-row",
+        "text_width": "xlarge",
+        "text_position": "left",
+        "text_alignment": "left",
+        "color_bg": "transparent",
+        "color_text": "#151515",
+        "color_links": "#151515",
+        "disable_top_spacing": false,
+        "disable_bottom_spacing": false
+      }
+    }
+  },
+  "order": [
+    "main",
+    "rich_text_CJLKRD",
+    "rich_text_eBhin6",
+    "rich_text_Cf8yFj"
+  ]
+}

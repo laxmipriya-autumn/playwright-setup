@@ -1,0 +1,295 @@
+.text-with-icons__inner {
+  padding: 0 15px;
+  max-width: 1440px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+@media only screen and (min-width: 768px) {
+  .text-with-icons__inner {
+    padding: 0 50px;
+  }
+}
+
+/* SECTION */
+
+.text-with-icons {
+  background: var(--color-bg);
+}
+
+.text-with-icons.text-with-icons-has-bg--true {
+  padding: 10px 0;
+}
+
+.text-with-icons.text-left {
+  text-align: left;
+}
+
+.text-with-icons.text-center {
+  text-align: center;
+}
+
+.text-with-icons.text-right {
+  text-align: right;
+}
+
+/* GRID */
+
+.text-with-icons__inner {
+  display: grid;
+  grid-gap: 40px 20px;
+  justify-content: center;
+  grid-auto-columns: minmax(250px, 300px);
+}
+
+@media only screen and (min-width: 768px) {
+  .text-with-icons__inner {
+    grid-template-columns: repeat(auto-fill, minmax(200px, 300px));
+  }
+}
+
+@media only screen and (min-width: 768px) {
+  .text-with-icons.icon-columns-2 .text-with-icons__inner {
+    grid-template-columns: repeat(2, minmax(200px, 300px));
+  }
+
+  .text-with-icons.icon-columns-3 .text-with-icons__inner {
+    grid-template-columns: repeat(3, minmax(200px, 300px));
+  }
+}
+
+@media only screen and (min-width: 768px) {
+  .text-with-icons.icon-columns-4 .text-with-icons__inner {
+    grid-template-columns: repeat(2, minmax(200px, 300px));
+  }
+}
+
+@media only screen and (min-width: 1068px) {
+  .text-with-icons.icon-columns-4 .text-with-icons__inner {
+    grid-template-columns: repeat(4, minmax(200px, 300px));
+  }
+}
+
+/* MOBILE SWIPE */
+
+@media only screen and (max-width: 767px) {
+  .text-with-icons.swipe-on-mobile .text-with-icons__inner {
+    overflow-x: auto;
+    overflow-y: hidden;
+    justify-content: flex-start;
+    scroll-snap-type: x mandatory;
+    grid-auto-flow: column;
+    grid-auto-columns: minmax(250px, 300px);
+    grid-template-columns: repeat(auto-fill, minmax(250px, 300px));
+    scrollbar-width: none;
+  }
+
+  .text-with-icons.swipe-on-mobile .text-with-icons__inner::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* BLOCK */
+
+.text-with-icons__block {
+  display: flex;
+  align-items: center;
+  scroll-snap-align: center;
+  scroll-snap-stop: always;
+}
+
+.text-with-icons__block-content {
+  font-size: 0.9375rem;
+}
+
+.text-with-icons__block-content h6 {
+  line-height: 1;
+  margin-bottom: 5px;
+  color: var(--color-heading, #000);
+}
+
+.text-with-icons__block-content p {
+  font-size: small;
+  color: var(--color-text, #000);
+}
+
+.text-with-icons__block-content > *:last-child {
+  margin-bottom: 0;
+}
+
+/* ICON CIRCLE */
+
+.text-with-icons__icon-wrapper {
+  flex-shrink: 0;
+  background-color: var(--icon-bg-color, #B8E6E6);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.text-with-icons__icon-wrapper:hover {
+  background-color: var(--icon-bg-hover-color, #3FB8B8);
+}
+
+/* ICON HOLDER */
+
+.text-with-icons__icon {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+/* ======================================
+   FORCE SVG COLOR FROM CUSTOMIZER
+====================================== */
+
+.text-with-icons__icon svg,
+.text-with-icons__icon svg path,
+.text-with-icons__icon svg circle,
+.text-with-icons__icon svg rect,
+.text-with-icons__icon svg line,
+.text-with-icons__icon svg polyline,
+.text-with-icons__icon svg polygon {
+  fill: var(--icon-color, #3FB8B8) !important;
+  stroke: var(--icon-color, #3FB8B8) !important;
+  transition: all 0.3s ease;
+}
+
+/* HOVER ICON COLOR */
+
+.text-with-icons__icon-wrapper:hover svg,
+.text-with-icons__icon-wrapper:hover svg path,
+.text-with-icons__icon-wrapper:hover svg circle,
+.text-with-icons__icon-wrapper:hover svg rect,
+.text-with-icons__icon-wrapper:hover svg line,
+.text-with-icons__icon-wrapper:hover svg polyline,
+.text-with-icons__icon-wrapper:hover svg polygon {
+  fill: #ffffff !important;
+  stroke: #ffffff !important;
+}
+
+/* IMAGE ICON SUPPORT */
+
+.text-with-icons__icon img {
+  display: block;
+  width: auto;
+  height: 100%;
+  object-fit: contain;
+  transition: filter 0.3s ease;
+}
+/* INITIAL ICON COLOR (NON HOVER) — #30AFB5 */
+/* .text-with-icons__icon img {
+  filter: brightness(0) saturate(100%)
+          invert(54%)
+          sepia(77%)
+          saturate(465%)
+          hue-rotate(150deg)
+          brightness(95%)
+          contrast(95%);
+} */
+
+.text-with-icons__icon-wrapper:hover .text-with-icons__icon img {
+  filter: brightness(0) invert(1);
+}
+
+/* ICON POSITIONS */
+
+.text-with-icons.icon-left .text-with-icons__icon-wrapper {
+  margin-right: 25px;
+}
+
+.text-with-icons.icon-top .text-with-icons__block {
+  flex-direction: column;
+}
+
+.text-with-icons.icon-top .text-with-icons__icon-wrapper {
+  margin-bottom: 30px;
+}
+
+.text-with-icons.icon-top.text-left .text-with-icons__block {
+  align-items: flex-start;
+}
+
+.text-with-icons.icon-top.text-center .text-with-icons__block {
+  align-items: center;
+}
+
+.text-with-icons.icon-top.text-right .text-with-icons__block {
+  align-items: flex-end;
+}
+
+.text-with-icons.icon-right .text-with-icons__block {
+  flex-direction: row-reverse;
+}
+
+.text-with-icons.icon-right .text-with-icons__icon-wrapper {
+  margin-left: 25px;
+}
+
+/* ICON SIZES */
+
+.text-with-icons.icon-small .text-with-icons__icon-wrapper {
+  width: 72px;
+  height: 72px;
+}
+
+.text-with-icons.icon-small .text-with-icons__icon {
+  width: 82px;
+  height: 82px;
+  padding: 15px;
+}
+
+.text-with-icons.icon-medium .text-with-icons__icon-wrapper {
+  width: 88px;
+  height: 88px;
+}
+
+.text-with-icons.icon-medium .text-with-icons__icon {
+  width: 48px;
+  height: 48px;
+  padding: 18px;
+}
+
+.text-with-icons.icon-large .text-with-icons__icon-wrapper {
+  width: 104px;
+  height: 104px;
+}
+
+.text-with-icons.icon-large .text-with-icons__icon {
+  width: 64px;
+  height: 64px;
+  padding: 20px;
+}
+
+.text-with-icons.icon-xlarge .text-with-icons__icon-wrapper {
+  width: 120px;
+  height: 120px;
+}
+
+.text-with-icons.icon-xlarge .text-with-icons__icon {
+  width: 80px;
+  height: 80px;
+  padding: 20px;
+}
+
+/* HEADING SIZE */
+
+.text-with-icons h6.body-font {
+  font-weight: var(--font-body-bold-weight, 600);
+}
+
+.text-with-icons.heading-large h6 {
+  font-size: 20px;
+}
+
+.text-with-icons.heading-medium h6 {
+  font-size: 16px;
+}
+
+.text-with-icons.heading-small h6 {
+  font-size: 14px;
+}

@@ -1,0 +1,31 @@
+{% assign template = template | replace: '.', '-' | handle %}
+{% if 'product-quick-view' != template %}
+<link id="Product" rel="stylesheet" href="{{ 'product.css' | asset_url }}" media="print" onload="this.media='all'">
+
+<div class="side-panel product-drawer" id="Product-Drawer" tabindex="-1">
+	<div class="side-panel-inner">
+		<div class="side-panel-header">
+			<div>
+				<h4>{{ 'products.product.product_drawer.select_options' | t }}</h4>
+				<side-panel-close class="side-panel-close">{%- render 'svg-icons' with 'close' -%}</side-panel-close>
+			</div>
+		</div>
+		<div class="side-panel-content" id="Product-Drawer-Content">
+			<!-- Product content will be loaded here dynamically -->
+		</div>
+	</div>
+</div>
+
+{%- comment -%}
+	Important: Size chart modal must be available globally
+	Make sure this is rendered once in your layout
+{%- endcomment -%}
+{%- render 'size-chart-modal' -%}
+
+{%- comment -%}
+	Load required scripts
+{%- endcomment -%}
+<script src="{{ 'modal-dialog.js' | asset_url }}" defer="defer"></script>
+<script src="{{ 'product-drawer.js' | asset_url }}" defer="defer"></script>
+
+{% endif %}

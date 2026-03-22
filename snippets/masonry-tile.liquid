@@ -1,0 +1,33 @@
+{% comment %} <div class="masonry-tile-{{ section_id }}" style="position:relative; border-radius:12px; overflow:hidden;">
+
+  {% if image %}
+    <img 
+      src="{{ image | image_url: width: 900 }}" 
+      alt="{{ title | escape }}" 
+      class="masonry-tile-img-{{ section_id }}"
+      style="width:100%; height:100%; object-fit:cover;"
+    >
+  {% else %}
+    <div style="width:100%; height:260px; background:#f4f4f4;"></div>
+  {% endif %}
+
+  <div class="masonry-tile-content-{{ section_id }}" 
+       style="position:absolute; left:0; right:0; bottom:0; padding:20px;
+              background:linear-gradient(to top,rgba(0,0,0,0.6),transparent);">
+
+    {% if title %}
+      <h3 style="color:white; margin:0 0 8px 0;">{{ title }}</h3>
+    {% endif %}
+
+    {% if button_text %}
+      <a href="{{ button_link }}"
+         style="background:white; padding:10px 22px; border-radius:40px;
+                font-weight:600; font-size:14px; color:black; 
+                text-decoration:none; display:inline-block;">
+        {{ button_text }}
+      </a>
+    {% endif %}
+
+  </div>
+
+</div> {% endcomment %}

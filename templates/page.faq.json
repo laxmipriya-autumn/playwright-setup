@@ -1,0 +1,244 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "faq": {
+      "type": "collapsible-content",
+      "blocks": {
+        "a82c71ab-5eef-4ac6-8278-42c4bf4565d6": {
+          "type": "collapsible_tab",
+          "settings": {
+            "heading": "How do I create an account?",
+            "open": true,
+            "content": "<p>You can create your account on FitFlop using your mobile number</p><p>1. Enter your Mobile Number on clicking SignUp</p><p>2. Click on \"Create New Account\"</p><p>3. Enter the OTP you get on your mobile number</p><p>4. Fill up the form to create your FitFlop account.</p><p>We collect the most minimal possible information regarding you to help a hassle free signup process</p>",
+            "page": "",
+            "custom_liquid": ""
+          }
+        },
+        "aa70895f-8889-4293-8c7d-ff7bc2b81c57": {
+          "type": "collapsible_tab",
+          "settings": {
+            "heading": "What data do I need to provide FitFlop to sign up?",
+            "open": false,
+            "content": "<p>Mandatory:</p><p>Phone Number:</p>",
+            "page": "",
+            "custom_liquid": ""
+          }
+        },
+        "72f09ca5-4337-4a0b-bcd2-0a7af9183034": {
+          "type": "collapsible_tab",
+          "settings": {
+            "heading": "How do I login on FitFlop?",
+            "open": false,
+            "content": "<p>You can loginto FitFlop using your mobile number and OTP</p>",
+            "page": "",
+            "custom_liquid": ""
+          }
+        },
+        "d8b3ed5d-d5cf-4b20-9bed-893f2be8497f": {
+          "type": "collapsible_tab",
+          "settings": {
+            "heading": "What if I do not receive my OTP?",
+            "open": false,
+            "content": "<p>Please verify your network connectivity. You have the option to 'Resend OTP' which can be used to trigger a message again</p>",
+            "page": "",
+            "custom_liquid": ""
+          }
+        }
+      },
+      "block_order": [
+        "a82c71ab-5eef-4ac6-8278-42c4bf4565d6",
+        "aa70895f-8889-4293-8c7d-ff7bc2b81c57",
+        "72f09ca5-4337-4a0b-bcd2-0a7af9183034",
+        "d8b3ed5d-d5cf-4b20-9bed-893f2be8497f"
+      ],
+      "disabled": true,
+      "settings": {
+        "heading": "Signup/Login",
+        "description": "",
+        "uppercase_heading": true,
+        "disable_top_spacing": true,
+        "disable_bottom_spacing": false
+      }
+    },
+    "collapsible_content_czzp6k": {
+      "type": "collapsible-content",
+      "blocks": {
+        "collapsible_tab_wPQXwm": {
+          "type": "collapsible_tab",
+          "settings": {
+            "heading": "How do I place an order on FitFlop?",
+            "open": false,
+            "content": "<p>Find the product you wish to buy</p><p>Select the size of the product</p><p>Add the product to your shopping bag by clicking on \"Add to Bag\"</p><p>Go to your shopping bag and click on \"Checkout\"</p><p>Provide your Shipping Address</p><p>Confirm payment and your order will be placed<br/></p>",
+            "page": "",
+            "custom_liquid": ""
+          }
+        },
+        "collapsible_tab_r6BgcG": {
+          "type": "collapsible_tab",
+          "settings": {
+            "heading": "How can I figure out the correct size for me?",
+            "open": false,
+            "content": "<p>Each item you select will have a 'Size Chart' on the product page. You can refer to the size chart and the provided sketch on 'How to Measure' to determine the right size of shoes. You can also visit our <a href=\"https://fitflopindia.myshopify.com/pages/find-your-fit\" target=\"_blank\" title=\"https://fitflopindia.myshopify.com/pages/find-your-fit\"><strong>Find Your Fit</strong></a> page to find your accurate size.</p>",
+            "page": "",
+            "custom_liquid": ""
+          }
+        },
+        "collapsible_tab_BrAdjV": {
+          "type": "collapsible_tab",
+          "settings": {
+            "heading": "Do I need to create an account to place an order?",
+            "open": false,
+            "content": "<p>No, you can place an order without signing in. We will take your contact details for order communications during checkout. However, we recommend creating an account for a personalized experience and seamless order tracking.</p>",
+            "page": "",
+            "custom_liquid": ""
+          }
+        },
+        "collapsible_tab_KqrE4R": {
+          "type": "collapsible_tab",
+          "settings": {
+            "heading": "How can I check if FitFlop delivers to my PIN Code?",
+            "open": false,
+            "content": "<p>Our Product Page has a section for 'Delivery Options' right below the 'Buy It Now' button. Please enter your PIN code there and click on 'Check'. The tool will indicate whether your area is serviceable.</p>",
+            "page": "",
+            "custom_liquid": ""
+          }
+        },
+        "collapsible_tab_KmXN48": {
+          "type": "collapsible_tab",
+          "settings": {
+            "heading": "Delivery is not available at my address. What should I do?",
+            "open": false,
+            "content": "<p>We are trying to add more PIN codes to our delivery list. If you do not find your PIN code at this point in time, we request you to check back in a few days.</p>",
+            "page": "",
+            "custom_liquid": ""
+          }
+        }
+      },
+      "block_order": [
+        "collapsible_tab_wPQXwm",
+        "collapsible_tab_r6BgcG",
+        "collapsible_tab_BrAdjV",
+        "collapsible_tab_KqrE4R",
+        "collapsible_tab_KmXN48"
+      ],
+      "name": "Collapsible content",
+      "settings": {
+        "heading": "Placing order, tracking, delivery",
+        "description": "",
+        "uppercase_heading": true,
+        "disable_top_spacing": true,
+        "disable_bottom_spacing": false
+      }
+    },
+    "collapsible_content_8RAcmp": {
+      "type": "collapsible-content",
+      "blocks": {
+        "collapsible_tab_49aWga": {
+          "type": "collapsible_tab",
+          "settings": {
+            "heading": "How can I pay for my order at FitFlop?",
+            "open": false,
+            "content": "<p>Payment can be made through any of these modes:</p><p>1. Credit Card</p><p>2. Debit Card</p><p>3. Net Banking</p><p>4. Wallet</p><p>5. UPI Payment</p>",
+            "page": "",
+            "custom_liquid": ""
+          }
+        },
+        "collapsible_tab_M69CWz": {
+          "type": "collapsible_tab",
+          "settings": {
+            "heading": "Do you accept COD (Cash on Delivery) payments?",
+            "open": false,
+            "content": "<p>No, currently we do not accept COD <br/>(Cash on Delivery) payments.</p>",
+            "page": "",
+            "custom_liquid": ""
+          }
+        },
+        "collapsible_tab_f3y6D4": {
+          "type": "collapsible_tab",
+          "settings": {
+            "heading": "What should I do if my payment fails?",
+            "open": false,
+            "content": "<p>Please verify all the details entered and check your network connection. If your payment still fails after verification, try again after some time. You can <a href=\"https://fitflopindia.myshopify.com/pages/contact-us\" target=\"_blank\" title=\"https://fitflopindia.myshopify.com/pages/contact-us\">contact us </a>if the issue persists.</p>",
+            "page": "",
+            "custom_liquid": ""
+          }
+        }
+      },
+      "block_order": [
+        "collapsible_tab_49aWga",
+        "collapsible_tab_M69CWz",
+        "collapsible_tab_f3y6D4"
+      ],
+      "name": "Collapsible content",
+      "settings": {
+        "heading": "Payments",
+        "description": "",
+        "uppercase_heading": true,
+        "disable_top_spacing": true,
+        "disable_bottom_spacing": false
+      }
+    },
+    "collapsible_content_7yVtyV": {
+      "type": "collapsible-content",
+      "blocks": {
+        "collapsible_tab_zBL9Um": {
+          "type": "collapsible_tab",
+          "settings": {
+            "heading": "What is Fitflop's cancellation policy?",
+            "open": false,
+            "content": "<p>You can cancel as long as the order is not yet packed/shipped.</p>",
+            "page": "",
+            "custom_liquid": ""
+          }
+        },
+        "collapsible_tab_jBEkaK": {
+          "type": "collapsible_tab",
+          "settings": {
+            "heading": "Refund timeline after cancellation?",
+            "open": false,
+            "content": "<p>Refunds are reflected in 7-10 days to the original payment mode.</p>",
+            "page": "",
+            "custom_liquid": ""
+          }
+        },
+        "collapsible_tab_wH4Dkt": {
+          "type": "collapsible_tab",
+          "settings": {
+            "heading": "How to return a product?",
+            "open": false,
+            "content": "<p>1. Go to the <a href=\"https://fitflopindia.myshopify.com/apps/return_prime\" title=\"https://fitflopindia.myshopify.com/apps/return_prime\">returns page</a>. Enter Order ID & Email → Select reason → Upload image→ Return.</p><p>2. Pickup will be scheduled & informed via message.</p>",
+            "page": "",
+            "custom_liquid": ""
+          }
+        }
+      },
+      "block_order": [
+        "collapsible_tab_zBL9Um",
+        "collapsible_tab_jBEkaK",
+        "collapsible_tab_wH4Dkt"
+      ],
+      "name": "Collapsible content",
+      "settings": {
+        "heading": "Cancellations, Returns & Refunds",
+        "description": "",
+        "uppercase_heading": true,
+        "disable_top_spacing": true,
+        "disable_bottom_spacing": false
+      }
+    }
+  },
+  "order": [
+    "faq",
+    "collapsible_content_czzp6k",
+    "collapsible_content_8RAcmp",
+    "collapsible_content_7yVtyV"
+  ]
+}

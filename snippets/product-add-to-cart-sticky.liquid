@@ -1,0 +1,217 @@
+{%- assign product_form_id = 'product-form-' | append: section.id -%}
+<product-add-to-cart-sticky class="product-add-to-cart-sticky no-js-hidden" data-section="{{ section.id }}">
+	<button class="product-add-to-cart-sticky--inner">
+		<div class="product-add-to-cart-sticky--image" id="product-image-{{ section.id }}--sticky">
+			{%- if media -%}
+				{%- render 'responsive-image', image: media, sizes: '96x96', priority: 'low' -%}
+			{%- endif -%}
+		</div>
+		<div class="product-add-to-cart-sticky--info">
+			<div class="product-add-to-cart-sticky--title">{{ product.title }}</div>
+			<div id="price-{{ section.id }}--sticky">
+				{% render 'product-price', product: product, use_variant: true, show_badges: false %}
+			</div>
+		</div>
+		<span class="plus"></span>
+	</button>
+	<div class="product-add-to-cart-sticky--content">
+		{%- unless product.has_only_default_variant -%}
+		<variant-selects id="variant-selects-{{ section.id }}--sticky" class="no-js-hidden variant-selects--sticky" data-section="{{ section.id }}" data-url="{{ product.url }}" data-sticky="1" data-is-disabled="{{ is_disabled }}">
+			<div class="variations">
+				{%- for option in product.options_with_values -%}
+					{%- liquid
+						assign option_name = option.name | downcase | escape
+						assign option_type = picker_type
+						if color_picker
+							if option_name contains 'color' or option_name contains 'colour' or option_name contains 'couleur' or option_name contains 'farbe'
+								assign option_type = 'color'
+							endif
+							# Additional swatch variant options set inside theme settings
+							assign color_swatches_variant_option = settings.color_swatches_variant_option | downcase | split: ', '
+
+							if color_swatches_variant_option contains option_name
+								assign option_type = 'color'
+							endif
+						endif
+					-%}
+					{% render 'product-option', option_type: option_type, product: product, option: option, forloop: forloop, product_form_id: product_form_id, sticky: true %}
+				{%- endfor -%}
+			</div>
+			<script type="application/json">
+				{{ product.variants | json }}
+			</script>
+		</variant-selects>
+		{%- endunless -%}
+		{%- if product != blank -%}
+			{%- liquid
+				assign product_template = product.template_suffix | escape 
+
+				if product.metafields.theme.preorder and product.available
+					assign product_template = 'pre-order'
+				endif
+			-%}
+		  <product-form class="product-form" data-sticky="1" data-section="{{ section.id }}" template="{{ product_template | escape }}">
+				<div class="product-form__error-message-wrapper form-notification error" role="alert" hidden>
+		      {% render 'svg-icons' with 'thb-error' %}
+		      <span class="product-form__error-message"></span>
+		    </div>
+				<div class="product-add-to-cart-container">
+					<div class="form-notification error" style="display:none;"></div>
+				  <div class="add_to_cart_holder">
+				    <button type="submit" name="add" id="AddToCartSticky" class="single-add-to-cart-button button{% if outline_button %} outline{% endif %} {% unless product.selected_or_first_available_variant.available %}sold-out{% endunless %}" {% if product.selected_or_first_available_variant.available == false %}disabled{% endif %} form="{{ product_form_id }}">
+							<span class="single-add-to-cart-button--text">
+								{%- liquid
+									if product.selected_or_first_available_variant.available == false
+										assign button_content = 'products.product.sold_out' | t
+									else
+										if product.template_suffix contains 'pre-order'
+											assign button_content = 'products.product.pre_order' | t
+										else
+											assign button_content = 'products.product.add_to_cart' | t
+										endif
+									endif
+								-%}
+								{{- button_content -}}
+							</span>
+							<span class="loading-overlay">
+								{% render 'svg-icons' with 'thb-loading' %}
+							</span>
+						</button>
+				  </div>
+				</div>
+			</product-form>
+		{%- else -%}
+	    <div class="product-form">
+	      <div class="product-form__buttons form">
+	        <button
+	          type="submit"
+	          name="add"
+	          class="single_add_to_cart_button button sold-out"
+	          disabled
+	        >
+	          <span class="single-add-to-cart-button--text">{{ 'products.product.sold_out' | t }}</span>
+	        </button>
+	      </div>
+	    </div>
+	  {%- endif -%}
+	</div>
+</product-add-to-cart-sticky>
+<script>
+// Optimized sticky ATC with swatch sync and scroll-based visibility
+(function() {
+  'use strict';
+  
+  const stickyBar = document.querySelector('product-add-to-cart-sticky');
+  if (!stickyBar) return;
+  
+  // Cache DOM elements
+  const productInfo = document.querySelector('.product-information, .product-form, [data-section-type="product"]');
+  const swatchItems = document.querySelectorAll('.related-swatches__item');
+  
+  let isVisible = false;
+  let scrollTicking = false;
+  
+  // ========================================
+  // SCROLL FUNCTIONALITY - Optimized with RAF
+  // ========================================
+  function handleStickyVisibility() {
+    if (!productInfo) return;
+    
+    const productInfoRect = productInfo.getBoundingClientRect();
+    const shouldShow = productInfoRect.bottom < 0;
+    const shouldHide = productInfoRect.top > 0;
+    
+    if (shouldShow && !isVisible) {
+      stickyBar.classList.add('is-visible');
+      isVisible = true;
+    } else if (shouldHide && isVisible) {
+      stickyBar.classList.remove('is-visible');
+      isVisible = false;
+    }
+    scrollTicking = false;
+  }
+  
+  function requestScroll() {
+    if (!scrollTicking) {
+      requestAnimationFrame(handleStickyVisibility);
+      scrollTicking = true;
+    }
+  }
+  
+  window.addEventListener('scroll', requestScroll, { passive: true });
+  handleStickyVisibility(); // Initial check
+  
+  // ========================================
+  // SWATCH CHANGE FUNCTIONALITY - Optimized
+  // ========================================
+  if (swatchItems.length) {
+    // Event delegation would be better but we'll optimize existing approach
+    swatchItems.forEach(item => {
+      item.addEventListener('click', function(e) {
+        const productHandle = this.dataset.productHandle;
+        if (!productHandle) return;
+        
+        fetchAndUpdate(productHandle, this.dataset.color);
+      }, { passive: true });
+    });
+  }
+  
+  async function fetchAndUpdate(handle, colorName) {
+    try {
+      const response = await fetch(`/products/${handle}?view=json`);
+      if (!response.ok) throw new Error('Failed to fetch');
+      const data = await response.json();
+      updateStickyATC(data, colorName);
+    } catch (err) {
+      // Fallback to page navigation
+      window.location.href = `/products/${handle}`;
+    }
+  }
+  
+  function updateStickyATC(productData, colorName) {
+    // Batch all DOM updates
+    requestAnimationFrame(() => {
+      // Update title
+      const titleEl = stickyBar.querySelector('.product-add-to-cart-sticky--title');
+      if (titleEl && productData.title) {
+        titleEl.textContent = productData.title;
+      }
+      
+      // Update image
+      const imageContainer = stickyBar.querySelector('.product-add-to-cart-sticky--image');
+      if (imageContainer && productData.featured_image) {
+        imageContainer.innerHTML = `<img src="${productData.featured_image}" alt="${productData.title}" loading="lazy">`;
+      }
+      
+      // Update price
+      const priceEl = stickyBar.querySelector('[id*="price-"][id$="--sticky"]');
+      if (priceEl && productData.price) {
+        const price = (productData.price / 100).toFixed(2);
+        const comparePrice = productData.compare_at_price ? (productData.compare_at_price / 100).toFixed(2) : null;
+        
+        let priceHTML = `<span class="price">${productData.price_formatted || '$' + price}</span>`;
+        if (comparePrice && comparePrice > price) {
+          priceHTML = `<span class="price price--on-sale">${productData.price_formatted || '$' + price}</span>
+                       <span class="price price--compare">${productData.compare_at_price_formatted || '$' + comparePrice}</span>`;
+        }
+        priceEl.innerHTML = priceHTML;
+      }
+      
+      // Update button state
+      const addToCartBtn = stickyBar.querySelector('.single-add-to-cart-button');
+      if (addToCartBtn && productData.variants && productData.variants[0]) {
+        const firstVariant = productData.variants[0];
+        addToCartBtn.disabled = !firstVariant.available;
+        addToCartBtn.classList.toggle('sold-out', !firstVariant.available);
+        
+        const btnText = addToCartBtn.querySelector('.single-add-to-cart-button--text');
+        if (btnText) {
+          btnText.textContent = firstVariant.available ? 
+            (productData.template_suffix?.includes('pre-order') ? 'Pre-Order' : 'Add to Cart') : 
+            'Sold Out';
+        }
+      }
+    });
+  }
+})();
+</script>

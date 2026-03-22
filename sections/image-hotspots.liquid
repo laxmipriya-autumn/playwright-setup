@@ -1,0 +1,370 @@
+{{- 'image-hotspots.css' | asset_url | stylesheet_tag -}}
+<script src="{{ 'image-hotspots.js' | asset_url }}" defer="defer"></script>
+
+{%- liquid
+  assign full_width = section.settings.full_width
+  assign image = section.settings.image
+  assign image_mobile = section.settings.image_mobile
+  assign background_link = section.settings.background_link
+
+  assign disable_top_spacing = section.settings.disable_top_spacing
+  assign disable_bottom_spacing = section.settings.disable_bottom_spacing
+  
+  assign hotspot_color = section.settings.hotspot_color
+  assign hotspot_text_color = section.settings.hotspot_text_color
+-%}
+
+<style>
+#shopify-section-{{ section.id }} .image-hotspots--container {
+  {%- if hotspot_color != blank -%}
+    --hotspot-bg-color: {{ hotspot_color }};
+  {%- else -%}
+    --hotspot-bg-color: var(--bg-body, #fff);
+  {%- endif -%}
+  {%- if hotspot_text_color != blank -%}
+    --hotspot-icon-color: {{ hotspot_text_color }};
+  {%- else -%}
+    --hotspot-icon-color: var(--color-body, #000);
+  {%- endif -%}
+}
+
+#shopify-section-{{ section.id }} .image-hotspots--pin-button {
+  background: var(--hotspot-bg-color) !important;
+}
+
+#shopify-section-{{ section.id }} .image-hotspots--pin-button svg {
+  color: var(--hotspot-icon-color) !important;
+}
+
+#shopify-section-{{ section.id }} .image-hotspots--pin-button:hover {
+  filter: brightness(0.9);
+}
+
+/* Clickable background */
+#shopify-section-{{ section.id }} .hotspot-bg-link {
+  display: block;
+  position: relative;
+  z-index: 1;
+}
+
+/* Hotspots above background */
+#shopify-section-{{ section.id }} .image-hotspots--pin {
+  position: absolute;
+  z-index: 5;
+}
+</style>
+
+<div class="row full-width-row{% if full_width %}-full{% endif %}">
+  <div class="small-12 columns">
+    <div class="image-hotspots section-spacing{% if disable_top_spacing %} section-spacing--disable-top{% endif %}{% if disable_bottom_spacing %} section-spacing--disable-bottom{% endif %}">
+      
+      <image-hotspots class="image-hotspots--container">
+
+        <!-- IMAGE -->
+        <div class="image-hotspots--image">
+          {% if background_link != blank %}
+            <a href="{{ background_link }}" class="hotspot-bg-link">
+          {% endif %}
+
+          {%- if image -%}
+            {%- liquid
+              assign master_width = image.src.width | append: 'x' | append: image.src.height
+              assign class = nil
+              if image_mobile != blank
+                assign class = 'image-hotspots--desktop'
+              endif
+            -%}
+            {%- render 'responsive-image', image: image, sizes: master_width, class: class -%}
+          {%- else -%}
+            <div class="thb-placeholder">
+              {{ 'hero-apparel-1' | placeholder_svg_tag: 'placeholder_svg_tag' }}
+            </div>
+          {%- endif -%}
+
+          {%- if image_mobile -%}
+            {%- liquid
+              assign master_width = image_mobile.src.width | append: 'x' | append: image_mobile.src.height
+            -%}
+            {%- render 'responsive-image', image: image_mobile, sizes: master_width, class: 'image-hotspots--mobile' -%}
+          {%- endif -%}
+
+          {% if background_link != blank %}
+            </a>
+          {% endif %}
+        </div>
+
+        <!-- HOTSPOTS -->
+        {% for block in section.blocks %}
+          <div class="image-hotspots--pin"
+               style="--mobile-left: {{ block.settings.x_position_mobile }}%; --mobile-top: {{ block.settings.y_position_mobile }}%; --desktop-left: {{ block.settings.x_position }}%; --desktop-top: {{ block.settings.y_position }}%;"
+               data-content-vertical="{{ block.settings.content_vertical_position }}"
+               data-content-horizontal="{{ block.settings.content_horizontal_position }}"
+               data-content-vertical-mobile="{{ block.settings.content_vertical_position_mobile }}"
+               data-content-horizontal-mobile="{{ block.settings.content_horizontal_position_mobile }}">
+
+            <div class="image-hotspots--pin-button">
+              {%- render 'svg-icons' with 'thb-hotspot' -%}
+            </div>
+
+            <div class="image-hotspots--pin-bubble">
+              <div class="image-hotspots--pin-content">
+                {% if block.settings.heading != blank %}
+                  <p class="h6 body-font">{{ block.settings.heading }}</p>
+                {% endif %}
+                {% if block.settings.description != blank %}
+                  <p>{{ block.settings.description }}</p>
+                {% endif %}
+              </div>
+            </div>
+
+          </div>
+        {% endfor %}
+
+      </image-hotspots>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Image hotspots",
+  "class": "section-image-hotspots",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image",
+      "info": "1340 x 650 .jpg recommended."
+    },
+    {
+      "type": "image_picker",
+      "id": "image_mobile",
+      "label": "Mobile image (optional)"
+    },
+    {
+      "type": "checkbox",
+      "id": "full_width",
+      "label": "Make section full width",
+      "default": true
+    },
+    {
+      "type": "url",
+      "id": "background_link",
+      "label": "Background image link",
+      "info": "Click anywhere on the image to open this link"
+    },
+    {
+      "type": "header",
+      "content": "Hotspot Button Styling"
+    },
+    {
+      "type": "color",
+      "id": "hotspot_color",
+      "label": "Hotspot button color",
+      "default": "#000000",
+      "info": "Choose the background color for hotspot buttons"
+    },
+    {
+      "type": "color",
+      "id": "hotspot_text_color",
+      "label": "Hotspot icon color",
+      "default": "#ffffff",
+      "info": "Choose the icon color inside hotspot buttons"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "checkbox",
+      "id": "disable_top_spacing",
+      "default": false,
+      "label": "Remove top spacing"
+    },
+    {
+      "type": "checkbox",
+      "id": "disable_bottom_spacing",
+      "default": false,
+      "label": "Remove bottom spacing"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "hotspot",
+      "name": "Hotspot",
+      "settings": [
+        {
+          "type": "text",
+          "id": "heading",
+          "default": "Hotspot",
+          "label": "Heading"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Description",
+          "default": "Description text for this hotspot"
+        },
+        {
+          "type": "header",
+          "content": "Desktop hotspot position"
+        },
+        {
+          "type": "range",
+          "id": "x_position",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "unit": "%",
+          "label": "Horizontal",
+          "default": 20,
+          "info": "Horizontal position of the hot spot"
+        },
+        {
+          "type": "range",
+          "id": "y_position",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "unit": "%",
+          "label": "Vertical",
+          "default": 20,
+          "info": "Vertical position of the hot spot"
+        },
+        {
+          "type": "header",
+          "content": "Mobile hotspot position"
+        },
+        {
+          "type": "range",
+          "id": "x_position_mobile",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "unit": "%",
+          "label": "Horizontal",
+          "default": 20,
+          "info": "Horizontal position of the hot spot on mobile screens"
+        },
+        {
+          "type": "range",
+          "id": "y_position_mobile",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "unit": "%",
+          "label": "Vertical",
+          "default": 20,
+          "info": "Vertical position of the hot spot on mobile screens"
+        },
+        {
+          "type": "header",
+          "content": "Desktop content bubble position"
+        },
+        {
+          "type": "select",
+          "id": "content_vertical_position",
+          "label": "Vertical position",
+          "options": [
+            {
+              "value": "auto",
+              "label": "Auto (Smart positioning)"
+            },
+            {
+              "value": "top",
+              "label": "Above hotspot"
+            },
+            {
+              "value": "bottom",
+              "label": "Below hotspot"
+            }
+          ],
+          "default": "auto",
+          "info": "Choose where the content bubble appears vertically on desktop"
+        },
+        {
+          "type": "select",
+          "id": "content_horizontal_position",
+          "label": "Horizontal position",
+          "options": [
+            {
+              "value": "center",
+              "label": "Center"
+            },
+            {
+              "value": "left",
+              "label": "Left aligned"
+            },
+            {
+              "value": "right",
+              "label": "Right aligned"
+            }
+          ],
+          "default": "center",
+          "info": "Choose horizontal alignment of the content bubble on desktop"
+        },
+        {
+          "type": "header",
+          "content": "Mobile content bubble position"
+        },
+        {
+          "type": "select",
+          "id": "content_vertical_position_mobile",
+          "label": "Vertical position",
+          "options": [
+            {
+              "value": "auto",
+              "label": "Auto (Smart positioning)"
+            },
+            {
+              "value": "top",
+              "label": "Above hotspot"
+            },
+            {
+              "value": "bottom",
+              "label": "Below hotspot"
+            }
+          ],
+          "default": "auto",
+          "info": "Choose where the content bubble appears vertically on mobile"
+        },
+        {
+          "type": "select",
+          "id": "content_horizontal_position_mobile",
+          "label": "Horizontal position",
+          "options": [
+            {
+              "value": "center",
+              "label": "Center"
+            },
+            {
+              "value": "left",
+              "label": "Left aligned"
+            },
+            {
+              "value": "right",
+              "label": "Right aligned"
+            }
+          ],
+          "default": "center",
+          "info": "Choose horizontal alignment of the content bubble on mobile"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Image hotspots",
+      "blocks": [
+        {
+          "type": "hotspot"
+        }
+      ]
+    }
+  ],
+  "enabled_on": {
+    "templates": ["*"],
+    "groups": ["header", "footer"]
+  }
+}
+{% endschema %}

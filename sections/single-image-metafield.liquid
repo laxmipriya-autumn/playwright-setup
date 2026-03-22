@@ -1,0 +1,152 @@
+{{ 'single-image.css' | asset_url | stylesheet_tag }}
+{%- liquid
+	assign full_width = section.settings.full_width
+	assign disable_top_spacing = section.settings.disable_top_spacing
+	assign disable_bottom_spacing = section.settings.disable_bottom_spacing
+	assign metafield_key_desktop = section.settings.metafield_key_desktop
+	assign metafield_key_mobile = section.settings.metafield_key_mobile
+
+	assign priority = 'low'
+
+	if section.index == 1
+		assign priority = 'high'
+	endif
+-%}
+
+{%- comment -%} Get images from metafields {%- endcomment -%}
+{%- assign image_desktop = nil -%}
+{%- assign image_mobile = nil -%}
+
+{%- comment -%} Get Desktop Image from Metafield {%- endcomment -%}
+{%- if metafield_key_desktop != blank -%}
+	{%- assign metafield_parts = metafield_key_desktop | split: '.' -%}
+	{%- if metafield_parts.size == 2 -%}
+		{%- assign namespace = metafield_parts[0] -%}
+		{%- assign key = metafield_parts[1] -%}
+		{%- assign metafield_desktop = product.metafields[namespace][key] -%}
+		
+		{%- if metafield_desktop.value -%}
+			{%- assign image_desktop = metafield_desktop.value -%}
+		{%- elsif metafield_desktop -%}
+			{%- assign image_desktop = metafield_desktop -%}
+		{%- endif -%}
+	{%- endif -%}
+{%- endif -%}
+
+{%- comment -%} Get Mobile Image from Metafield {%- endcomment -%}
+{%- if metafield_key_mobile != blank -%}
+	{%- assign metafield_parts = metafield_key_mobile | split: '.' -%}
+	{%- if metafield_parts.size == 2 -%}
+		{%- assign namespace = metafield_parts[0] -%}
+		{%- assign key = metafield_parts[1] -%}
+		{%- assign metafield_mobile = product.metafields[namespace][key] -%}
+		
+		{%- if metafield_mobile.value -%}
+			{%- assign image_mobile = metafield_mobile.value -%}
+		{%- elsif metafield_mobile -%}
+			{%- assign image_mobile = metafield_mobile -%}
+		{%- endif -%}
+	{%- endif -%}
+{%- endif -%}
+
+{%- comment -%} Only show section if at least one image exists {%- endcomment -%}
+{%- if image_desktop != blank or image_mobile != blank -%}
+<div class="single-image full-width--{{ full_width }} section-spacing{% if disable_top_spacing %} section-spacing--disable-top{% endif %}{% if disable_bottom_spacing %} section-spacing--disable-bottom{% endif %}">
+	{%- if image_mobile != blank -%}
+		{%- if image_mobile.width -%}
+			{%- liquid
+				assign master_width = image_mobile.width | append: 'x' | append: image_mobile.height
+				render 'responsive-image', image: image_mobile, class: 'single-image--mobile', sizes: master_width, priority: priority
+			-%}
+		{%- else -%}
+			<img src="{{ image_mobile | image_url: width: 2000 }}" alt="{{ image_mobile.alt | default: product.title }}" class="single-image--mobile" loading="{% if priority == 'high' %}eager{% else %}lazy{% endif %}">
+		{%- endif -%}
+	{%- endif -%}
+	
+	{%- if image_desktop != blank -%}
+		{%- assign class = '' -%}
+		{%- if image_mobile != blank -%}
+			{%- assign class = 'single-image--desktop' -%}
+		{%- endif -%}
+		
+		{%- if image_desktop.width -%}
+			{%- liquid
+				assign master_width = image_desktop.width | append: 'x' | append: image_desktop.height
+				render 'responsive-image', image: image_desktop, class: class, sizes: master_width, priority: priority
+			-%}
+		{%- else -%}
+			<img src="{{ image_desktop | image_url: width: 2000 }}" alt="{{ image_desktop.alt | default: product.title }}" class="{{ class }}" loading="{% if priority == 'high' %}eager{% else %}lazy{% endif %}">
+		{%- endif -%}
+	{%- endif -%}
+</div>
+{%- endif -%}
+
+{% schema %}
+  {
+    "name": "Single image (Metafield)",
+		"class": "section-single-image",
+    "settings": [
+			{
+        "type": "header",
+        "content": "Metafield Image Settings"
+      },
+			{
+				"type": "paragraph",
+				"content": "Images will be loaded from product metafields. Section will be hidden if both metafields are empty."
+			},
+			{
+				"type": "text",
+				"id": "metafield_key_desktop",
+				"label": "Desktop Image Metafield Key",
+				"info": "Enter the metafield key with namespace (e.g., custom.pdp_tech_image_desktop)",
+				"placeholder": "custom.pdp_tech_image_desktop",
+				"default": "custom.pdp_tech_image_desktop"
+			},
+			{
+				"type": "text",
+				"id": "metafield_key_mobile",
+				"label": "Mobile Image Metafield Key",
+				"info": "Enter the metafield key with namespace (e.g., custom.pdp_tech_image_mobile)",
+				"placeholder": "custom.pdp_tech_image_mobile",
+				"default": "custom.pdp_tech_image_mobile"
+			},
+			{
+        "type": "header",
+        "content": "Layout Settings"
+      },
+			{
+				"type": "checkbox",
+				"id": "full_width",
+				"label": "Make section full width",
+				"default": false
+			},
+			{
+        "type": "header",
+        "content": "Spacing"
+      },
+			{
+				"type": "checkbox",
+				"id": "disable_top_spacing",
+				"default": false,
+				"label": "Remove top spacing"
+			},
+			{
+				"type": "checkbox",
+				"id": "disable_bottom_spacing",
+				"default": false,
+				"label": "Remove bottom spacing"
+			}
+    ],
+    "presets": [
+      {
+        "name": "Single image (Metafield)"
+      }
+    ],
+		"enabled_on": {
+			"templates": ["product"],
+			"groups": [
+				"header", "footer"
+			]
+		}
+  }
+{% endschema %}

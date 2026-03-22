@@ -1,0 +1,268 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "breadcrumbs": {
+      "type": "breadcrumbs",
+      "settings": {}
+    },
+    "main-product": {
+      "type": "main-product",
+      "blocks": {
+        "e431a79e-9c7b-4a53-a79a-0cb918617ecf": {
+          "type": "text",
+          "settings": {
+            "text": "{{ product.metafields.custom.pre_header.value }}",
+            "text_style": "subheading"
+          }
+        },
+        "pre_header_8AVaMy": {
+          "type": "pre_header",
+          "disabled": true,
+          "settings": {}
+        },
+        "title": {
+          "type": "title",
+          "settings": {
+            "uppercase": true,
+            "show_products_rating": true,
+            "show_custom_badges": true
+          }
+        },
+        "0b3e272b-c86a-4dba-946c-c6912251371c": {
+          "type": "description",
+          "settings": {
+            "seo_text_max_height": 1000,
+            "seo_text_read_more": "Read more",
+            "seo_text_read_less": "Read less"
+          }
+        },
+        "variant_picker": {
+          "type": "variant_picker",
+          "settings": {
+            "picker_type": "button",
+            "color_picker": true,
+            "color_picker_size": "regular",
+            "color_picker_use_variants": true,
+            "variant_is_disabled": true,
+            "sizing_guide_variant": "Size",
+            "sizing_guide_text": "",
+            "sizing_guide_icon": "ruler",
+            "sizing_guide_page": "",
+            "custom_liquid": ""
+          }
+        },
+        "advanced_wishlist_wishlist_btn_EtynUA": {
+          "type": "shopify://apps/advanced-wishlist/blocks/wishlist-btn/330d9272-08ea-4193-b3e0-475a69fa65fa",
+          "disabled": true,
+          "settings": {
+            "button_style": "style_3",
+            "button_border": 0,
+            "button_font_size": 16,
+            "button_font_weight": "500",
+            "button_border_radius": 0,
+            "button_vertical_space": 9,
+            "button_horizontal_space": 16,
+            "button_text_color": "#ffffff",
+            "button_background": "#121212",
+            "border_color": "#121212",
+            "hover_button_text_color": "#ffffff",
+            "hover_button_background_color": "#121212",
+            "hover_button_border_color": "#121212",
+            "is_new_icon_settings": false,
+            "icon_type": "outline",
+            "icon_size": 16,
+            "icon_background_type": "icon_round_background",
+            "icon_background_color": "#5c6ac4",
+            "icon_fill_color": "#ffffff",
+            "icon_border_color": "#ffffff",
+            "icon_hover_color": "#5c6ac4",
+            "selected_icon_fill_color": "#5c6ac4",
+            "selected_icon_border_color": "#5c6ac4"
+          }
+        },
+        "buy_buttons": {
+          "type": "buy_buttons",
+          "settings": {
+            "show_quantity_selector": true,
+            "outline_button": true,
+            "show_dynamic_checkout": true,
+            "show_gift_card_recipient": false
+          }
+        },
+        "estimated_delivery_date_cp_clickpost_edd_XNG3LL": {
+          "type": "shopify://apps/estimated-delivery-date-cp/blocks/clickpost-edd/052d4955-0ec2-4e86-8e1f-f971acb44560",
+          "settings": {
+            "heading": "ADD PINCODE TO CHECK DELIVERY DATE",
+            "color": "#121212",
+            "submit_color": "#ffffff",
+            "submit": "Check",
+            "edd_text": "Delivery between",
+            "edd_color": "#008000",
+            "fail_color": "#ff0000",
+            "cod_text": "Cash on delivery",
+            "unservicable_text": "Pincode not servicable",
+            "cod": false,
+            "date_range": true,
+            "only_min": false,
+            "month": false,
+            "placeholder": "Enter your pincode",
+            "date_format": "1",
+            "enable_countdown": false,
+            "invalid_text": "Please enter a valid pincode",
+            "extra_text": "",
+            "max_date_additional_text": "",
+            "helping_text": "",
+            "padding_top": 0,
+            "padding_bottom": 0
+          }
+        },
+        "aj_zipcode_validator_header_global_AUxyMh": {
+          "type": "shopify://apps/aj-zipcode-validator/blocks/header_global/ea3fc2c3-2e25-4cad-99d5-39d982011c28",
+          "disabled": true,
+          "settings": {}
+        },
+        "collapsible_tab_wdyaGp": {
+          "type": "collapsible_tab",
+          "settings": {
+            "heading": "DESCRIPTION",
+            "open": true,
+            "content": "{{ product.description }}",
+            "page": "",
+            "custom_liquid": ""
+          }
+        },
+        "collapsible_tab_DGX8KN": {
+          "type": "collapsible_tab",
+          "settings": {
+            "heading": "PRODUCT DETAILS",
+            "open": false,
+            "content": "<p><strong>Gender: </strong>{{ product.metafields.custom.gender.value }}<br/><strong>Net Quantity:</strong>{{ product.metafields.custom.net_quantity.value }}<br/><strong>Category:</strong>{{ product.metafields.custom.category.value }}<br/><strong>Color:</strong>{{ product.metafields.custom.primary_colour.value }}<br/><strong>Collection:</strong>{{ product.metafields.custom.collections.value }}<br/><strong>Technology:</strong>{{ product.metafields.custom.technology.value }}<br/><strong>Upper Material:</strong>{{ product.metafields.custom.upper_material.value }}<br/><strong>Style Code :</strong>{{ product.metafields.custom.sub_group_id.value }}</p>",
+            "page": "",
+            "custom_liquid": ""
+          }
+        },
+        "collapsible_tab_FrVJAm": {
+          "type": "collapsible_tab",
+          "settings": {
+            "heading": "CARE INSTRUCTIONS",
+            "open": false,
+            "content": "<p>{{ product.metafields.custom.care_instructions | metafield_tag }}</p>",
+            "page": "",
+            "custom_liquid": ""
+          }
+        },
+        "collapsible_tab_TrbGU4": {
+          "type": "collapsible_tab",
+          "settings": {
+            "heading": "OTHER DETAILS",
+            "open": false,
+            "content": "<p><strong>Manufactured by: </strong>{{ product.metafields.custom.manufacturer_name_address | metafield_tag }}<strong><br/>Imported by: </strong>{{ product.metafields.custom.importer_details | metafield_tag }}<strong><br/>Marketed by: </strong>{{ product.metafields.custom.marketer_details | metafield_tag }}<strong><br/>Country of Origin: </strong>{{ product.metafields.custom.country_of_origin.value }}</p>",
+            "page": "",
+            "custom_liquid": ""
+          }
+        },
+        "collapsible_tab_xKgGxf": {
+          "type": "collapsible_tab",
+          "settings": {
+            "heading": "SHIPPING AND RETURN POLICY",
+            "open": false,
+            "content": "<p><strong>Delivery of Products<br/></strong>Our endeavour is to make the products reach you within 2-3 business days from receipt of payment.</p><p><br/><strong>Delivery Charges</strong><br/>Free shipping on orders worth Rs. 1001 & above. <br/>Shipping charges of Rs. 100 applicable on orders worth Rs. 1000 & below. <br/><br/><strong>Return Policy<br/></strong>Return unused items within 15 days with tags intact. <br/><br/><strong>Refund Timelines<br/></strong>Refunds are processed within 7 days of quality check. It can take up to 15 days for the money to reflect in your account.</p>",
+            "page": "",
+            "custom_liquid": ""
+          }
+        }
+      },
+      "block_order": [
+        "e431a79e-9c7b-4a53-a79a-0cb918617ecf",
+        "pre_header_8AVaMy",
+        "title",
+        "0b3e272b-c86a-4dba-946c-c6912251371c",
+        "variant_picker",
+        "advanced_wishlist_wishlist_btn_EtynUA",
+        "buy_buttons",
+        "estimated_delivery_date_cp_clickpost_edd_XNG3LL",
+        "aj_zipcode_validator_header_global_AUxyMh",
+        "collapsible_tab_wdyaGp",
+        "collapsible_tab_DGX8KN",
+        "collapsible_tab_FrVJAm",
+        "collapsible_tab_TrbGU4",
+        "collapsible_tab_xKgGxf"
+      ],
+      "settings": {
+        "full_width": true,
+        "enable_sticky_info": true,
+        "enable_sticky_add_to_cart": true,
+        "show_taxes_included": true,
+        "media_layout": "grid",
+        "display_slider_pagination": true,
+        "media_aspect_ratio": "adapt",
+        "display_captions": true,
+        "hide_variants": false,
+        "lightbox": true,
+        "enable_video_looping": false
+      }
+    },
+    "single_image_metafield_CDfQYH": {
+      "type": "single-image-metafield",
+      "name": "Single image (Metafield)",
+      "settings": {
+        "metafield_key_desktop": "custom.pdp_tech_image_desktop",
+        "metafield_key_mobile": "custom.pdp_tech_image_mobile",
+        "full_width": false,
+        "disable_top_spacing": false,
+        "disable_bottom_spacing": false
+      }
+    },
+    "1773143722855179a6": {
+      "type": "apps",
+      "blocks": {
+        "ryviu_product_reviews_ryviu_widget_KBhHrV": {
+          "type": "shopify://apps/ryviu-product-reviews/blocks/ryviu-widget/807ad6ed-1a6a-4559-abea-ed062858d9da",
+          "settings": {
+            "r_wapper_class": "",
+            "r_max_width": 1920,
+            "r_padding_block": 0,
+            "hide_when_no_reviews": true,
+            "one_col_on_mobile": true,
+            "hide_title_image_form": false
+          }
+        }
+      },
+      "block_order": [
+        "ryviu_product_reviews_ryviu_widget_KBhHrV"
+      ],
+      "settings": {
+        "section_width": "full-width-row",
+        "disable_top_spacing": false,
+        "disable_bottom_spacing": false
+      }
+    },
+    "product-recommendations": {
+      "type": "product-recommendations",
+      "settings": {
+        "heading": "YOU MAY ALSO LIKE",
+        "heading_left": false,
+        "description": "<p>Combine your style with these products</p>",
+        "full_width": true,
+        "mobile_swipe": true,
+        "disable_top_spacing": true,
+        "disable_bottom_spacing": true
+      }
+    }
+  },
+  "order": [
+    "breadcrumbs",
+    "main-product",
+    "single_image_metafield_CDfQYH",
+    "1773143722855179a6",
+    "product-recommendations"
+  ]
+}

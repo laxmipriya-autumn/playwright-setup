@@ -1,0 +1,215 @@
+{% comment %}
+  Custom Video Section for Shopify
+  Save this file as: sections/custom-video-section.liquid
+{% endcomment %}
+
+<style>
+  .custom-video-section {
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .video-container {
+    width: 100%;
+    position: relative;
+    background: #000;
+  }
+
+  .video-wrapper {
+    position: relative;
+    display: block;
+    cursor: {% if section.settings.video_link != blank %}pointer{% else %}default{% endif %};
+  }
+
+  .video-container video {
+    width: 100%;
+    display: block;
+  }
+
+  /* Desktop Video */
+  .video-desktop {
+    display: block;
+    height: {{ section.settings.desktop_height }}px;
+  }
+
+  .video-mobile {
+    display: none;
+    height: {{ section.settings.mobile_height }}px;
+  }
+
+  /* Video Fit Styles */
+  {% if section.settings.video_fit == 'contain' %}
+    .video-container video {
+      object-fit: contain;
+    }
+  {% elsif section.settings.video_fit == 'cover' %}
+    .video-container video {
+      object-fit: cover;
+    }
+  {% elsif section.settings.video_fit == 'fill' %}
+    .video-container video {
+      object-fit: fill;
+    }
+  {% endif %}
+
+  /* Mobile Responsive */
+  @media screen and (max-width: 768px) {
+    .video-desktop {
+      display: none;
+    }
+    .video-mobile {
+      display: block;
+    }
+  }
+</style>
+
+<section class="custom-video-section">
+  <div class="video-container">
+    
+    {% if section.settings.desktop_video != blank %}
+      <div class="video-desktop">
+        {% if section.settings.video_link != blank %}
+          <a href="{{ section.settings.video_link }}" class="video-wrapper" {% if section.settings.open_new_tab %}target="_blank"{% endif %}>
+            <video 
+              autoplay 
+              muted 
+              loop 
+              playsinline
+            >
+              {% for source in section.settings.desktop_video.sources %}
+                <source src="{{ source.url }}">
+              {% endfor %}
+              Your browser does not support the video tag.
+            </video>
+          </a>
+        {% else %}
+          <div class="video-wrapper">
+            <video 
+              autoplay 
+              muted 
+              loop 
+              playsinline
+            >
+              {% for source in section.settings.desktop_video.sources %}
+                <source src="{{ source.url }}">
+              {% endfor %}
+              Your browser does not support the video tag.
+            </video>
+          </div>
+        {% endif %}
+      </div>
+    {% endif %}
+
+    {% if section.settings.mobile_video != blank %}
+      <div class="video-mobile">
+        {% if section.settings.video_link != blank %}
+          <a href="{{ section.settings.video_link }}" class="video-wrapper" {% if section.settings.open_new_tab %}target="_blank"{% endif %}>
+            <video 
+              autoplay 
+              muted 
+              loop 
+              playsinline
+            >
+              {% for source in section.settings.mobile_video.sources %}
+                <source src="{{ source.url }}">
+              {% endfor %}
+              Your browser does not support the video tag.
+            </video>
+          </a>
+        {% else %}
+          <div class="video-wrapper">
+            <video 
+              autoplay 
+              muted 
+              loop 
+              playsinline
+            >
+              {% for source in section.settings.mobile_video.sources %}
+                <source src="{{ source.url }}">
+              {% endfor %}
+              Your browser does not support the video tag.
+            </video>
+          </div>
+        {% endif %}
+      </div>
+    {% endif %}
+
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Custom Video Section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Desktop Video Settings"
+    },
+    {
+      "type": "video",
+      "id": "desktop_video",
+      "label": "Desktop Video",
+      "info": "Upload video for desktop display"
+    },
+    
+    {
+      "type": "header",
+      "content": "Mobile Video Settings"
+    },
+    {
+      "type": "video",
+      "id": "mobile_video",
+      "label": "Mobile Video",
+      "info": "Upload video for mobile display"
+    },
+    
+    {
+      "type": "header",
+      "content": "Video Display Settings"
+    },
+    {
+      "type": "select",
+      "id": "video_fit",
+      "label": "Video Fit",
+      "options": [
+        {
+          "value": "contain",
+          "label": "Contain - Full video visible, no cropping"
+        },
+        {
+          "value": "cover",
+          "label": "Cover - Fill container, may crop"
+        },
+        {
+          "value": "fill",
+          "label": "Fill - Stretch to fill"
+        }
+      ],
+      "default": "contain",
+      "info": "Choose how video fits in the container"
+    },
+    {
+      "type": "header",
+      "content": "Video Link Settings"
+    },
+    {
+      "type": "url",
+      "id": "video_link",
+      "label": "Video Click Link",
+      "info": "Make the video clickable - add a URL here (optional)"
+    },
+    {
+      "type": "checkbox",
+      "id": "open_new_tab",
+      "label": "Open link in new tab",
+      "default": false
+    }
+  ],
+  "presets": [
+    {
+      "name": "Custom Video Section"
+    }
+  ]
+}
+{% endschema %}

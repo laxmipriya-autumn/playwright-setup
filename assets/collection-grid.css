@@ -1,0 +1,241 @@
+/* =============================================================
+   COLLECTION GRID SECTION
+   Two equal cards side-by-side (desktop) → stacked (mobile)
+   Each card: full-bleed image, rounded corners, bottom-left
+   text overlay, smooth zoom on hover, per-card hover border.
+   ============================================================= */
+
+/* ── Section header (heading + description) ── */
+.collection-grid-section__header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.collection-grid-section__heading {
+  font-size: 2.25rem;                          /* 36 px */
+  font-weight: 400;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  margin: 0 0 10px;
+  color: var(--color-body, #1a1a1a);
+}
+
+@media only screen and (min-width: 768px) {
+  .collection-grid-section__heading {
+    font-size: 2.75rem;                        /* 44 px */
+  }
+}
+
+.collection-grid-section__description {
+  font-size: 0.9375rem;                        /* 15 px */
+  color: rgba(var(--color-body-rgb, 26, 26, 26), 0.6);
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* ── Grid container ── */
+.collection-grid {
+  display: flex;
+  flex-direction: column;                      /* mobile: stack */
+  gap: 18px;
+  width: 100%;
+}
+
+@media only screen and (min-width: 768px) {
+  .collection-grid {
+    flex-direction: row;                       /* desktop: side by side */
+    gap: 24px;
+  }
+}
+
+/* ── Individual card ── */
+.collection-grid__card {
+  position: relative;
+  flex: 1 1 0;                                 /* equal widths on desktop */
+  overflow: hidden;
+  border-radius: 16px;
+  text-decoration: none;
+  color: inherit;
+
+  /* border: always present but transparent by default */
+  border: 2.5px solid transparent;
+
+  /* smooth border colour transition */
+  transition: border-color 0.35s cubic-bezier(0.104, 0.204, 0.492, 1);
+
+  /* force a stacking context so the overlay & content
+     clip cleanly inside border-radius */
+  isolation: isolate;
+}
+
+/* mobile card height — tall enough to show the image well */
+.collection-grid__card {
+  min-height: 340px;
+}
+
+@media only screen and (min-width: 768px) {
+  .collection-grid__card {
+    min-height: 420px;
+  }
+}
+
+@media only screen and (min-width: 1024px) {
+  .collection-grid__card {
+    min-height: 480px;
+  }
+}
+
+/* ── HOVER: border lights up with the per-card CSS var ── */
+.collection-grid__card:hover {
+  border-color: var(--card-hover-border, #30afb5);
+}
+
+/* ─────────────────────────────────────────────
+   Image wrapper + image
+   The wrapper fills the card absolutely so the
+   image can be zoomed without affecting layout.
+   ───────────────────────────────────────────── */
+.collection-grid__card-img-wrap {
+  position: absolute;
+  inset: 0;                                    /* top right bottom left = 0 */
+  z-index: 1;
+}
+
+.collection-grid__card-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+
+  /* smooth zoom */
+  transition: transform 0.55s cubic-bezier(0.104, 0.204, 0.492, 1);
+  will-change: transform;
+}
+
+/* placeholder when no image is set */
+.collection-grid__card-placeholder {
+  width: 100%;
+  height: 100%;
+  background: var(--bg-body, #f5f5f0);
+}
+
+/* ── IMAGE ZOOM on card hover ── */
+.collection-grid__card:hover .collection-grid__card-img {
+  transform: scale(1.07);
+}
+
+/* ─────────────────────────────────────────────
+   Bottom gradient overlay
+   Sits above the image, below the text.
+   Fades from transparent at the top to a dark
+   semi-transparent black at the bottom so the
+   white text stays readable.
+   ───────────────────────────────────────────── */
+.collection-grid__card-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background: linear-gradient(
+    to bottom,
+    transparent                       0%,
+    transparent                      40%,
+    rgba(0, 0, 0, 0.18)             60%,
+    rgba(0, 0, 0, 0.52)             80%,
+    rgba(0, 0, 0, 0.68)            100%
+  );
+  pointer-events: none;                        /* clicks pass through */
+}
+
+/* ─────────────────────────────────────────────
+   Text content block
+   Positioned at bottom-left, above the overlay.
+   On hover it scales up very slightly for that
+   "content zooms in" feel the screenshot shows.
+   ───────────────────────────────────────────── */
+.collection-grid__card-content {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  z-index: 3;                                  /* above overlay */
+  padding: 28px 30px;
+  width: 100%;
+
+  /* the slight text zoom lives here */
+  transition: transform 0.45s cubic-bezier(0.104, 0.204, 0.492, 1);
+  transform-origin: bottom left;
+  will-change: transform;
+}
+
+@media only screen and (min-width: 768px) {
+  .collection-grid__card-content {
+    padding: 36px 38px;
+  }
+}
+
+/* ── TEXT ZOOM on card hover ── */
+.collection-grid__card:hover .collection-grid__card-content {
+  transform: scale(1.04);
+}
+
+/* ── Sub heading — small uppercase spaced label ── */
+.collection-grid__card-sub {
+  font-size: 0.75rem;                          /* 12 px */
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.82);
+  margin: 0 0 8px;
+  line-height: 1.4;
+}
+
+@media only screen and (min-width: 768px) {
+  .collection-grid__card-sub {
+    font-size: 0.8125rem;                      /* 13 px */
+  }
+}
+
+/* ── Main heading ── */
+.collection-grid__card-title {
+  font-size: 1.875rem;                         /* 30 px */
+  font-weight: 600;
+  line-height: 1.15;
+  color: #ffffff;
+  margin: 0 0 14px;
+  letter-spacing: -0.01em;
+}
+
+@media only screen and (min-width: 768px) {
+  .collection-grid__card-title {
+    font-size: 2.25rem;                        /* 36 px */
+  }
+}
+
+/* ── "Explore Collection →" link row ── */
+.collection-grid__card-link {
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.875rem;                         /* 14 px */
+  font-weight: 500;
+  color: #ffffff;
+  letter-spacing: 0.02em;
+  line-height: 1.4;
+}
+
+@media only screen and (min-width: 768px) {
+  .collection-grid__card-link {
+    font-size: 0.9375rem;                      /* 15 px */
+  }
+}
+
+/* arrow glyph */
+.collection-grid__card-arrow {
+  display: inline-block;
+  margin-left: 8px;
+  transition: transform 0.3s cubic-bezier(0.104, 0.204, 0.492, 1);
+}
+
+/* nudge arrow on card hover */
+.collection-grid__card:hover .collection-grid__card-arrow {
+  transform: translateX(4px);
+} 

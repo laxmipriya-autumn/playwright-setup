@@ -1,0 +1,204 @@
+{{- 'collection-grid.css' | asset_url | stylesheet_tag -}}
+{%- liquid
+  assign section_heading     = section.settings.heading
+  assign section_description = section.settings.description
+  assign full_width          = section.settings.full_width
+  assign bg_color            = section.settings.bg_color
+
+  assign disable_top_spacing    = section.settings.disable_top_spacing
+  assign disable_bottom_spacing = section.settings.disable_bottom_spacing
+-%}
+
+<div class="collection-grid-section section-spacing
+            {%- if disable_top_spacing %}    section-spacing--disable-top{%- endif -%}
+            {%- if disable_bottom_spacing %} section-spacing--disable-bottom{%- endif -%}
+           "
+     style="background-color: {{ bg_color }};">
+  
+  <div class="row{% if full_width %} full-width-row{% endif %}">
+    <div class="small-12 columns">
+
+      {%- if section_heading or section_description -%}
+        <div class="collection-grid-section__header">
+          {%- if section_heading -%}
+            <h2 class="collection-grid-section__heading">{{ section_heading }}</h2>
+          {%- endif -%}
+          {%- if section_description -%}
+            <p class="collection-grid-section__description">{{ section_description }}</p>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+
+      <div class="collection-grid">
+        {%- for block in section.blocks -%}
+          {%- liquid
+            assign card_image        = block.settings.image
+            assign card_collection   = block.settings.collection
+            assign card_sub_heading  = block.settings.sub_heading
+            assign card_heading      = block.settings.heading
+            assign card_link_label   = block.settings.link_label | default: 'Explore Collection'
+            assign card_hover_border = block.settings.hover_border_color | default: '#30afb5'
+
+            if card_collection
+              assign card_url = card_collection.url
+            else
+              assign card_url = '#'
+            endif
+          -%}
+
+          <a
+            href="{{ card_url }}"
+            class="collection-grid__card"
+            style="--card-hover-border: {{ card_hover_border }};"
+            {% if block.settings.collection %}
+              data-collection="{{ block.settings.collection.handle }}"
+            {% endif %}
+          >
+
+            <!-- Image -->
+            <div class="collection-grid__card-img-wrap">
+              {%- if card_image -%}
+                <img
+                  src="{{ card_image | img_url: '1200x' }}"
+                  srcset="
+                    {{ card_image | img_url: '600x' }} 600w,
+                    {{ card_image | img_url: '900x' }} 900w,
+                    {{ card_image | img_url: '1200x' }} 1200w
+                  "
+                  sizes="(max-width: 767px) 100vw, 50vw"
+                  alt="{{ card_heading | default: card_collection.title | default: '' }}"
+                  class="collection-grid__card-img"
+                  loading="lazy"
+                  width="1200"
+                  height="800"
+                >
+              {%- else -%}
+                <div class="collection-grid__card-placeholder"></div>
+              {%- endif -%}
+            </div>
+
+            <div class="collection-grid__card-overlay"></div>
+
+            <div class="collection-grid__card-content">
+              {%- if card_sub_heading -%}
+                <p class="collection-grid__card-sub">{{ card_sub_heading }}</p>
+              {%- endif -%}
+
+              {%- if card_heading -%}
+                <h3 class="collection-grid__card-title">{{ card_heading }}</h3>
+              {%- endif -%}
+
+              <span class="collection-grid__card-link">
+                {{ card_link_label }}
+                <span class="collection-grid__card-arrow">&rarr;</span>
+              </span>
+            </div>
+
+          </a>
+        {%- endfor -%}
+      </div>
+
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Collection Grid Cards",
+  "class": "section-collection-grid",
+  "max_blocks": 2,
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Shop by Category"
+    },
+    {
+      "type": "text",
+      "id": "description",
+      "label": "Description",
+      "default": "Find your perfect summer style"
+    },
+    {
+      "type": "checkbox",
+      "id": "full_width",
+      "label": "Make section full width",
+      "default": true
+    },
+
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Section background color",
+      "default": "#ffffff"
+    },
+
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "checkbox",
+      "id": "disable_top_spacing",
+      "default": false,
+      "label": "Remove top spacing"
+    },
+    {
+      "type": "checkbox",
+      "id": "disable_bottom_spacing",
+      "default": false,
+      "label": "Remove bottom spacing"
+    }
+  ],
+
+  "blocks": [
+    {
+      "type": "collection_card",
+      "name": "Collection Card",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Card image"
+        },
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "Collection"
+        },
+        {
+          "type": "text",
+          "id": "sub_heading",
+          "label": "Sub heading",
+          "default": "Summer Essentials for Her"
+        },
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "default": "Shop Women"
+        },
+        {
+          "type": "text",
+          "id": "link_label",
+          "label": "Link label",
+          "default": "Explore Collection"
+        },
+        {
+          "type": "color",
+          "id": "hover_border_color",
+          "label": "Hover border color",
+          "default": "#30afb5"
+        }
+      ]
+    }
+  ],
+
+  "presets": [
+    {
+      "name": "Collection Grid Cards"
+    }
+  ]
+}
+{% endschema %}

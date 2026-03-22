@@ -1,0 +1,745 @@
+{% doc %}
+  @prompt
+    Layout Style A (Masonry / Uneven Grid)
+    
+    1 large image on the left
+    
+    4 smaller images on the right
+    
+    All with buttons below: Shop Sandals|   Large Image    | Small | Small |
+    |                  | Small | Small |
+    create a section, i mobile view i looks in slider or carsole to swipe and see the collection and one more thing give option to selection collections, add only one option to show or hide the Carousel dots please
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-masonry-grid-{{ ai_gen_id }} {
+    padding: {{ block.settings.section_padding_mobile }}px 0;
+  }
+
+  @media screen and (min-width: 750px) {
+    .ai-masonry-grid-{{ ai_gen_id }} {
+      padding: {{ block.settings.section_padding_desktop }}px 0;
+    }
+  }
+
+  .ai-masonry-grid-container-{{ ai_gen_id }} {
+    display: block;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .ai-masonry-grid-container-{{ ai_gen_id }} {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: {{ block.settings.grid_gap }}px;
+    }
+  }
+
+  .ai-masonry-carousel-{{ ai_gen_id }} {
+    position: relative;
+    overflow: hidden;
+    margin: 0 -20px;
+    padding: 0 20px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .ai-masonry-carousel-{{ ai_gen_id }} {
+      display: none;
+    }
+  }
+
+  .ai-masonry-carousel-track-{{ ai_gen_id }} {
+    display: flex;
+    gap: {{ block.settings.grid_gap }}px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .ai-masonry-carousel-track-{{ ai_gen_id }}::-webkit-scrollbar {
+    display: none;
+  }
+
+  .ai-masonry-carousel-slide-{{ ai_gen_id }} {
+    flex: 0 0 85%;
+    scroll-snap-align: start;
+  }
+
+  .ai-masonry-carousel-dots-{{ ai_gen_id }} {
+    display: {% if block.settings.show_dots %}flex{% else %}none{% endif %};
+    justify-content: center;
+    gap: 8px;
+    margin-top: 20px;
+  }
+
+  .ai-masonry-carousel-dot-{{ ai_gen_id }} {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: {{ block.settings.dot_color }};
+    opacity: 0.3;
+    transition: opacity 0.3s ease;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+  }
+
+  .ai-masonry-carousel-dot-{{ ai_gen_id }}.active {
+    opacity: 1;
+  }
+
+  .ai-masonry-grid-desktop-{{ ai_gen_id }} {
+    display: none;
+  }
+
+  @media screen and (min-width: 750px) {
+    .ai-masonry-grid-desktop-{{ ai_gen_id }} {
+      display: contents;
+    }
+  }
+
+  .ai-masonry-grid-item-{{ ai_gen_id }} {
+    position: relative;
+    overflow: hidden;
+    border-radius: {{ block.settings.border_radius }}px;
+  }
+
+  .ai-masonry-grid-large-{{ ai_gen_id }} {
+    grid-row: span 1;
+  }
+
+  @media screen and (min-width: 750px) {
+    .ai-masonry-grid-large-{{ ai_gen_id }} {
+      grid-row: span 2;
+    }
+  }
+
+  .ai-masonry-grid-small-container-{{ ai_gen_id }} {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: {{ block.settings.grid_gap }}px;
+  }
+
+  .ai-masonry-grid-image-wrapper-{{ ai_gen_id }} {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    min-height: 300px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .ai-masonry-grid-image-wrapper-{{ ai_gen_id }} {
+      min-height: 300px;
+    }
+  }
+
+  .ai-masonry-grid-image-{{ ai_gen_id }} {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .ai-masonry-grid-placeholder-{{ ai_gen_id }} {
+    width: 100%;
+    height: 100%;
+    background-color: #f4f4f4;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 300px;
+  }
+
+  .ai-masonry-grid-placeholder-{{ ai_gen_id }} svg {
+    width: 100%;
+    height: 100%;
+    max-width: 200px;
+    max-height: 200px;
+  }
+
+  .ai-masonry-grid-content-{{ ai_gen_id }} {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    background: linear-gradient(to top, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0) 100%);
+  }
+
+  .ai-masonry-grid-title-{{ ai_gen_id }} {
+    color: {{ block.settings.text_color }};
+    font-size: {{ block.settings.title_size }}px;
+    margin: 0;
+    font-weight: 600;
+  }
+
+  .ai-masonry-grid-button-{{ ai_gen_id }} {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 24px;
+    background-color: {{ block.settings.button_background }};
+    color: {{ block.settings.button_text_color }};
+    text-decoration: none;
+    border-radius: {{ block.settings.button_border_radius }}px;
+    font-size: {{ block.settings.button_font_size }}px;
+    transition: background-color 0.3s ease;
+    width: fit-content;
+    border: none;
+    cursor: pointer;
+  }
+
+  .ai-masonry-grid-button-{{ ai_gen_id }}:hover {
+    background-color: {{ block.settings.button_hover_background }};
+  }
+{% endstyle %}
+
+<masonry-carousel-{{ ai_gen_id }} class="ai-masonry-grid-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="ai-masonry-grid-container-{{ ai_gen_id }}">
+    <div class="ai-masonry-carousel-{{ ai_gen_id }}">
+      <div class="ai-masonry-carousel-track-{{ ai_gen_id }}" data-carousel-track>
+        {% liquid
+          assign large_image = block.settings.large_image
+          assign large_title = block.settings.large_title
+          assign large_button_text = block.settings.large_button_text
+          assign large_collection = block.settings.large_collection
+          
+          if large_collection != blank
+            assign large_link = large_collection.url
+          else
+            assign large_link = block.settings.large_button_link
+          endif
+        %}
+        
+        <div class="ai-masonry-carousel-slide-{{ ai_gen_id }}">
+          <div class="ai-masonry-grid-item-{{ ai_gen_id }}">
+            <div class="ai-masonry-grid-image-wrapper-{{ ai_gen_id }}">
+              {% if large_image %}
+                <img
+                  src="{{ large_image | image_url: width: 800 }}"
+                  alt="{{ large_image.alt | escape }}"
+                  loading="lazy"
+                  width="{{ large_image.width }}"
+                  height="{{ large_image.height }}"
+                  class="ai-masonry-grid-image-{{ ai_gen_id }}"
+                >
+              {% else %}
+                <div class="ai-masonry-grid-placeholder-{{ ai_gen_id }}">
+                  {{ 'collection-1' | placeholder_svg_tag }}
+                </div>
+              {% endif %}
+              <div class="ai-masonry-grid-content-{{ ai_gen_id }}">
+                {% if large_title != blank %}
+                  <h3 class="ai-masonry-grid-title-{{ ai_gen_id }}">{{ large_title }}</h3>
+                {% endif %}
+                {% if large_button_text != blank %}
+                  <a
+                    href="{{ large_link }}"
+                    class="ai-masonry-grid-button-{{ ai_gen_id }}"
+                  >
+                    {{ large_button_text }}
+                  </a>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {% for i in (1..4) %}
+          {% liquid
+            assign image_key = 'small_image_' | append: i
+            assign title_key = 'small_title_' | append: i
+            assign button_text_key = 'small_button_text_' | append: i
+            assign collection_key = 'small_collection_' | append: i
+
+            assign image = block.settings[image_key]
+            assign title = block.settings[title_key]
+            assign button_text = block.settings[button_text_key]
+            assign collection = block.settings[collection_key]
+            
+            if collection != blank
+              assign link = collection.url
+            else
+              assign link = '#'
+            endif
+          %}
+
+          <div class="ai-masonry-carousel-slide-{{ ai_gen_id }}">
+            <div class="ai-masonry-grid-item-{{ ai_gen_id }}">
+              <div class="ai-masonry-grid-image-wrapper-{{ ai_gen_id }}">
+                {% if image %}
+                  <img
+                    src="{{ image | image_url: width: 600 }}"
+                    alt="{{ image.alt | escape }}"
+                    loading="lazy"
+                    width="{{ image.width }}"
+                    height="{{ image.height }}"
+                    class="ai-masonry-grid-image-{{ ai_gen_id }}"
+                  >
+                {% else %}
+                  <div class="ai-masonry-grid-placeholder-{{ ai_gen_id }}">
+                    {{ 'collection-1' | placeholder_svg_tag }}
+                  </div>
+                {% endif %}
+                <div class="ai-masonry-grid-content-{{ ai_gen_id }}">
+                  {% if title != blank %}
+                    <h3 class="ai-masonry-grid-title-{{ ai_gen_id }}">{{ title }}</h3>
+                  {% endif %}
+                  {% if button_text != blank %}
+                    <a
+                      href="{{ link }}"
+                      class="ai-masonry-grid-button-{{ ai_gen_id }}"
+                    >
+                      {{ button_text }}
+                    </a>
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+
+      {% if block.settings.show_dots %}
+        <div class="ai-masonry-carousel-dots-{{ ai_gen_id }}" data-carousel-dots>
+          <button class="ai-masonry-carousel-dot-{{ ai_gen_id }} active" data-dot-index="0" aria-label="Go to slide 1"></button>
+          <button class="ai-masonry-carousel-dot-{{ ai_gen_id }}" data-dot-index="1" aria-label="Go to slide 2"></button>
+          <button class="ai-masonry-carousel-dot-{{ ai_gen_id }}" data-dot-index="2" aria-label="Go to slide 3"></button>
+          <button class="ai-masonry-carousel-dot-{{ ai_gen_id }}" data-dot-index="3" aria-label="Go to slide 4"></button>
+          <button class="ai-masonry-carousel-dot-{{ ai_gen_id }}" data-dot-index="4" aria-label="Go to slide 5"></button>
+        </div>
+      {% endif %}
+    </div>
+
+    <div class="ai-masonry-grid-desktop-{{ ai_gen_id }}">
+      <div class="ai-masonry-grid-item-{{ ai_gen_id }} ai-masonry-grid-large-{{ ai_gen_id }}">
+        <div class="ai-masonry-grid-image-wrapper-{{ ai_gen_id }}">
+          {% if large_image %}
+            <img
+              src="{{ large_image | image_url: width: 1000 }}"
+              alt="{{ large_image.alt | escape }}"
+              loading="lazy"
+              width="{{ large_image.width }}"
+              height="{{ large_image.height }}"
+              class="ai-masonry-grid-image-{{ ai_gen_id }}"
+            >
+          {% else %}
+            <div class="ai-masonry-grid-placeholder-{{ ai_gen_id }}">
+              {{ 'collection-1' | placeholder_svg_tag }}
+            </div>
+          {% endif %}
+          <div class="ai-masonry-grid-content-{{ ai_gen_id }}">
+            {% if large_title != blank %}
+              <h3 class="ai-masonry-grid-title-{{ ai_gen_id }}">{{ large_title }}</h3>
+            {% endif %}
+            {% if large_button_text != blank %}
+              <a
+                href="{{ large_link }}"
+                class="ai-masonry-grid-button-{{ ai_gen_id }}"
+              >
+                {{ large_button_text }}
+              </a>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+
+      <div class="ai-masonry-grid-small-container-{{ ai_gen_id }}">
+        {% for i in (1..4) %}
+          {% liquid
+            assign image_key = 'small_image_' | append: i
+            assign title_key = 'small_title_' | append: i
+            assign button_text_key = 'small_button_text_' | append: i
+            assign collection_key = 'small_collection_' | append: i
+
+            assign image = block.settings[image_key]
+            assign title = block.settings[title_key]
+            assign button_text = block.settings[button_text_key]
+            assign collection = block.settings[collection_key]
+            
+            if collection != blank
+              assign link = collection.url
+            else
+              assign link = '#'
+            endif
+          %}
+
+          <div class="ai-masonry-grid-item-{{ ai_gen_id }}">
+            <div class="ai-masonry-grid-image-wrapper-{{ ai_gen_id }}">
+              {% if image %}
+                <img
+                  src="{{ image | image_url: width: 600 }}"
+                  alt="{{ image.alt | escape }}"
+                  loading="lazy"
+                  width="{{ image.width }}"
+                  height="{{ image.height }}"
+                  class="ai-masonry-grid-image-{{ ai_gen_id }}"
+                >
+              {% else %}
+                <div class="ai-masonry-grid-placeholder-{{ ai_gen_id }}">
+                  {{ 'collection-1' | placeholder_svg_tag }}
+                </div>
+              {% endif %}
+              <div class="ai-masonry-grid-content-{{ ai_gen_id }}">
+                {% if title != blank %}
+                  <h3 class="ai-masonry-grid-title-{{ ai_gen_id }}">{{ title }}</h3>
+                {% endif %}
+                {% if button_text != blank %}
+                  <a
+                    href="{{ link }}"
+                    class="ai-masonry-grid-button-{{ ai_gen_id }}"
+                  >
+                    {{ button_text }}
+                  </a>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</masonry-carousel-{{ ai_gen_id }}>
+
+<script>
+  (function() {
+    class MasonryCarousel{{ ai_gen_id }} extends HTMLElement {
+      constructor() {
+        super();
+        this.track = this.querySelector('[data-carousel-track]');
+        this.dots = this.querySelectorAll('[data-dot-index]');
+        this.currentIndex = 0;
+      }
+
+      connectedCallback() {
+        if (!this.track) return;
+
+        this.track.addEventListener('scroll', this.handleScroll.bind(this));
+        
+        this.dots.forEach((dot) => {
+          dot.addEventListener('click', (e) => {
+            const index = parseInt(e.currentTarget.getAttribute('data-dot-index'));
+            this.scrollToSlide(index);
+          });
+        });
+
+        this.updateDots();
+      }
+
+      handleScroll() {
+        if (this.scrollTimeout) {
+          clearTimeout(this.scrollTimeout);
+        }
+
+        this.scrollTimeout = setTimeout(() => {
+          const scrollLeft = this.track.scrollLeft;
+          const slideWidth = this.track.querySelector('.ai-masonry-carousel-slide-{{ ai_gen_id }}').offsetWidth;
+          const gap = {{ block.settings.grid_gap }};
+          this.currentIndex = Math.round(scrollLeft / (slideWidth + gap));
+          this.updateDots();
+        }, 100);
+      }
+
+      scrollToSlide(index) {
+        const slideWidth = this.track.querySelector('.ai-masonry-carousel-slide-{{ ai_gen_id }}').offsetWidth;
+        const gap = {{ block.settings.grid_gap }};
+        this.track.scrollTo({
+          left: index * (slideWidth + gap),
+          behavior: 'smooth'
+        });
+        this.currentIndex = index;
+        this.updateDots();
+      }
+
+      updateDots() {
+        this.dots.forEach((dot, index) => {
+          if (index === this.currentIndex) {
+            dot.classList.add('active');
+          } else {
+            dot.classList.remove('active');
+          }
+        });
+      }
+    }
+
+    customElements.define('masonry-carousel-{{ ai_gen_id }}', MasonryCarousel{{ ai_gen_id }});
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Masonry image grid",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Large image"
+    },
+    {
+      "type": "image_picker",
+      "id": "large_image",
+      "label": "Image"
+    },
+    {
+      "type": "collection",
+      "id": "large_collection",
+      "label": "Collection"
+    },
+    {
+      "type": "text",
+      "id": "large_title",
+      "label": "Title",
+      "default": "Featured Collection"
+    },
+    {
+      "type": "text",
+      "id": "large_button_text",
+      "label": "Button text",
+      "default": "Shop Now"
+    },
+    {
+      "type": "url",
+      "id": "large_button_link",
+      "label": "Button link",
+      "info": "Used if no collection is selected"
+    },
+    {
+      "type": "header",
+      "content": "Small image 1"
+    },
+    {
+      "type": "image_picker",
+      "id": "small_image_1",
+      "label": "Image"
+    },
+    {
+      "type": "collection",
+      "id": "small_collection_1",
+      "label": "Collection"
+    },
+    {
+      "type": "text",
+      "id": "small_title_1",
+      "label": "Title",
+      "default": "Sandals"
+    },
+    {
+      "type": "text",
+      "id": "small_button_text_1",
+      "label": "Button text",
+      "default": "Shop Sandals"
+    },
+    {
+      "type": "header",
+      "content": "Small image 2"
+    },
+    {
+      "type": "image_picker",
+      "id": "small_image_2",
+      "label": "Image"
+    },
+    {
+      "type": "collection",
+      "id": "small_collection_2",
+      "label": "Collection"
+    },
+    {
+      "type": "text",
+      "id": "small_title_2",
+      "label": "Title",
+      "default": "Sneakers"
+    },
+    {
+      "type": "text",
+      "id": "small_button_text_2",
+      "label": "Button text",
+      "default": "Shop Sneakers"
+    },
+    {
+      "type": "header",
+      "content": "Small image 3"
+    },
+    {
+      "type": "image_picker",
+      "id": "small_image_3",
+      "label": "Image"
+    },
+    {
+      "type": "collection",
+      "id": "small_collection_3",
+      "label": "Collection"
+    },
+    {
+      "type": "text",
+      "id": "small_title_3",
+      "label": "Title",
+      "default": "Boots"
+    },
+    {
+      "type": "text",
+      "id": "small_button_text_3",
+      "label": "Button text",
+      "default": "Shop Boots"
+    },
+    {
+      "type": "header",
+      "content": "Small image 4"
+    },
+    {
+      "type": "image_picker",
+      "id": "small_image_4",
+      "label": "Image"
+    },
+    {
+      "type": "collection",
+      "id": "small_collection_4",
+      "label": "Collection"
+    },
+    {
+      "type": "text",
+      "id": "small_title_4",
+      "label": "Title",
+      "default": "Slippers"
+    },
+    {
+      "type": "text",
+      "id": "small_button_text_4",
+      "label": "Button text",
+      "default": "Shop Slippers"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "grid_gap",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "Grid gap",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "border_radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "Border radius",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "section_padding_mobile",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "label": "Section padding mobile",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "section_padding_desktop",
+      "min": 0,
+      "max": 200,
+      "step": 10,
+      "unit": "px",
+      "label": "Section padding desktop",
+      "default": 40
+    },
+    {
+      "type": "header",
+      "content": "Text style"
+    },
+    {
+      "type": "range",
+      "id": "title_size",
+      "min": 12,
+      "max": 48,
+      "step": 2,
+      "unit": "px",
+      "label": "Title size",
+      "default": 24
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Button style"
+    },
+    {
+      "type": "range",
+      "id": "button_font_size",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Font size",
+      "default": 14
+    },
+    {
+      "type": "color",
+      "id": "button_background",
+      "label": "Background",
+      "default": "#121212"
+    },
+    {
+      "type": "color",
+      "id": "button_hover_background",
+      "label": "Hover background",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Text color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "button_border_radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "Border radius",
+      "default": 0
+    },
+    {
+      "type": "header",
+      "content": "Mobile carousel"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_dots",
+      "label": "Show carousel dots",
+      "default": true
+    },
+    {
+      "type": "color",
+      "id": "dot_color",
+      "label": "Dot color",
+      "default": "#121212"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Masonry image grid"
+    }
+  ]
+}
+{% endschema %}

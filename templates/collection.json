@@ -1,0 +1,83 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main-collection-banner": {
+      "type": "main-collection-banner",
+      "settings": {
+        "show_collection_image": false,
+        "show_collection_description": true,
+        "show_subcollections": true,
+        "make_heading_uppercase": true,
+        "text_alignment": "center",
+        "overlay_color": "#000000",
+        "overlay_opacity": 40
+      }
+    },
+    "product-grid": {
+      "type": "main-collection-product-grid",
+      "blocks": {
+        "2eb8e6da-98ad-442c-b31e-fcc9bc0532b9": {
+          "type": "promotion",
+          "disabled": true,
+          "settings": {
+            "promotion_collection": "",
+            "promotion_position": 7,
+            "promotion_width": "1",
+            "title": "PROMOTION BANNER",
+            "text": "Add your description text for promotion banner here.",
+            "link_label": "Explore",
+            "link": "",
+            "use_text_button": true,
+            "block_link": "",
+            "content_position": "middle-center",
+            "text_alignment": "center",
+            "overlay_color": "#000000",
+            "overlay_opacity": 15
+          }
+        }
+      },
+      "block_order": [
+        "2eb8e6da-98ad-442c-b31e-fcc9bc0532b9"
+      ],
+      "settings": {
+        "full_width": true,
+        "products_per_page": 11,
+        "columns_desktop": 4,
+        "pagination_type": "paginated",
+        "enable_filtering": true,
+        "enable_sorting": true,
+        "show_counts": true,
+        "filter_color_swatches": true,
+        "facets_desktop": "drawer",
+        "sidebar_size": "medium",
+        "box_filter_list": ""
+      }
+    },
+    "recently_viewed_products_C77HfP": {
+      "type": "recently-viewed-products",
+      "name": "Recently viewed products",
+      "settings": {
+        "heading": "RECENTLY VIEWED PRODUCTS",
+        "heading_left": false,
+        "description": "",
+        "full_width": true,
+        "mobile_swipe": true,
+        "disable_top_spacing": false,
+        "disable_bottom_spacing": false
+      }
+    }
+  },
+  "order": [
+    "main-collection-banner",
+    "product-grid",
+    "recently_viewed_products_C77HfP"
+  ]
+}

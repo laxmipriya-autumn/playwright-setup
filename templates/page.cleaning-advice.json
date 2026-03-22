@@ -1,0 +1,235 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {
+        "show_page_title": true,
+        "disable_top_spacing": false,
+        "disable_bottom_spacing": false
+      }
+    },
+    "rich_text_nMf3jY": {
+      "type": "rich-text",
+      "blocks": {
+        "heading_zwRXBB": {
+          "type": "heading",
+          "settings": {
+            "text": "FITFLOP SHOE CARE AND CLEANING GUIDE",
+            "size": "h3"
+          }
+        },
+        "text_n4tPGA": {
+          "type": "text",
+          "settings": {
+            "text": "<p>We want your FitFlop sandals, shoes, boots and sneakers to stay looking great. Here are a few easy-to-follow guidelines to keep your FitFlop shoes in top condition.</p>",
+            "custom_liquid": "",
+            "size": "text-size-regular"
+          }
+        }
+      },
+      "block_order": [
+        "heading_zwRXBB",
+        "text_n4tPGA"
+      ],
+      "name": "Rich text",
+      "settings": {
+        "section_width": "grid",
+        "text_width": "medium",
+        "text_position": "center",
+        "text_alignment": "center",
+        "color_bg": "rgba(0,0,0,0)",
+        "color_text": "#151515",
+        "color_links": "#151515",
+        "disable_top_spacing": false,
+        "disable_bottom_spacing": false
+      }
+    },
+    "rich_text_KQ4fyq": {
+      "type": "rich-text",
+      "blocks": {
+        "text_9YcEwV": {
+          "type": "text",
+          "settings": {
+            "text": "<h3>HOW TO STORE SHOES</h3><p>Store your FitFlop shoes away from light and away from damp areas or heaters (which can make leathers dry and brittle and may affect adhesives). We suggest you avoid storing shoes in shoeboxes for long periods of time, especially in humid climates, because the lack of air can negatively affect certain footwear materials.</p><h3>CARING FOR YOUR FITFLOP SANDALS</h3><p>Follow these steps, and cleaning FitFlop sandals should be simple and easy.</p><h3>FOOTBED/MIDSOLE</h3><p>Unlined: Many of our sandals have an unlined midsole and footbed; you can see and feel the layer of cushioning. If this is the case, to clean the footbed of your sandals, use a damp cloth or soft toothbrush, wet the midsole, use a bit of soap, and scrub in circles.</p><p>Lined: Where the sandal midsole is lined or wrapped, for example with leather, follow the care instructions below for the relevant wrap material.</p><h3>SANDAL UPPERS</h3><p>See further down for care of the upper material</p><h3>HOW TO CLEAN THE INSIDE OF YOUR SHOES</h3><p>Not sure how to keep your FitFlop shoes, sneakers and boots fresh and odour-free? Try these simple tips.</p><ul><li>Clean shoe footbeds regularly using a damp cloth or antibacterial wipe.</li><li>Wearing breathable cotton socks can help shoes and boots stay odour-free.</li><li>Soda powder or bicarbonate of soda sprinkled inside and left overnight can also work (just don’t forget to tap it out before you put your shoes back on!).</li><li>A very light mist of white vinegar sprayed inside your shoes and left to dry for about an hour removes odour and kills the bacteria that cause it.</li></ul><h3>RAIN, RAIN, GO AWAY!</h3><p>If you’re going out in rain, leather or ideally rubber FitFlop footwear is best. To provide extra protection, some of our styles – particularly in less resistant materials like nubuck, suede and canvas – come treated with 3M™ Scotchgard™ for water repellence.</p>",
+            "custom_liquid": "",
+            "size": "text-size-regular"
+          }
+        }
+      },
+      "block_order": [
+        "text_9YcEwV"
+      ],
+      "name": "Rich text",
+      "settings": {
+        "section_width": "grid",
+        "text_width": "xlarge",
+        "text_position": "center",
+        "text_alignment": "left",
+        "color_bg": "rgba(0,0,0,0)",
+        "color_text": "#151515",
+        "color_links": "#151515",
+        "disable_top_spacing": true,
+        "disable_bottom_spacing": false
+      }
+    },
+    "collapsible_content_ghRLiK": {
+      "type": "collapsible-content",
+      "blocks": {
+        "collapsible_tab_rFX3Mk": {
+          "type": "collapsible_tab",
+          "settings": {
+            "heading": "HOW TO CARE FOR WONDERWELLY",
+            "open": false,
+            "content": "<p>CLEANING ADVICE<br/>It couldn’t be easier! Day-to-day, all you need is warm water and a damp cloth.</p><p>IF YOU NOTICE ANY WHITE MARKS<br/>This is called blooming. It’s a natural occurrence and is characteristic of high-quality natural rubber. You can easily wipe this away with warm water and a damp cloth.</p><p>STORAGE TIPS<br/>To help preserve the gorgeous colour of the upper and lining, do not store in direct sunlight.</p>",
+            "page": "",
+            "custom_liquid": ""
+          }
+        },
+        "collapsible_tab_jgg6NV": {
+          "type": "collapsible_tab",
+          "settings": {
+            "heading": "CARING FOR PATENT LEATHER",
+            "open": false,
+            "content": "<p>(For patent faux-leather shoes see ‘Caring for faux-leather’ below.)</p><p>TO CLEAN & patent leather FitFlop shoes, wipe them clean with a soft damp cloth and a drop of mild soap. A patent leather cleaner containing silicone will restore the gloss.</p><p>IF YOUR PATENT LEATHER SHOES GET WET, stuff them with newspaper and let them dry naturally – away from direct heat or sunlight – for at least 24 hours.</p>",
+            "page": "",
+            "custom_liquid": ""
+          }
+        },
+        "collapsible_tab_7PBjdW": {
+          "type": "collapsible_tab",
+          "settings": {
+            "heading": "CARING FOR LEATHER",
+            "open": false,
+            "content": "<p>PRIOR TO WEARING, spraying your shoes with a water repellent and stain repellent can help minimise any staining (please note that any product used may alter the colour of the leather).</p><p>TO CLEAN & leather FitFlop shoes or boots, wipe them with a damp cloth before applying polish. Wax polish adds more shine and colour than cream polish. You can also use specialist leather cleaners or protectors.</p><p>IF YOUR LEATHER SHOES OR BOOTS GET WET, stuff them with newspaper and let them dry naturally – away from direct heat or sunlight – for at least 24 hours. Once dry, they will benefit from an application of a specialist neutral-coloured leather conditioner.</p>",
+            "page": "",
+            "custom_liquid": ""
+          }
+        },
+        "collapsible_tab_cYRzMq": {
+          "type": "collapsible_tab",
+          "settings": {
+            "heading": "CARING FOR SUEDE",
+            "open": false,
+            "content": "<p>PRIOR TO WEARING, & spraying your shoes with a water repellent and stain repellent can help minimise any initial staining (please note that this may alter the colour of the suede).</p><p>BECAUSE SUEDE IS NOT AS WATER-RESISTANT AS LEATHER, it’s best to avoid wearing your suede footwear in heavy rain and to keep it away from perfume, hairspray and other products containing chemicals.</p><p>TO CLEAN & suede FitFlop shoes, sneakers or boots, we recommend leaving any dirt/mud to dry and then gently cleaning the upper with a soft suede brush only.</p><p>Specialist suede cleaners/protectors can also be used. Avoid polishes and other products designed for leather.</p><ul><li>For dirt or smudges try a colourless or white rubber pencil eraser before brushing gently.</li><li>If spillages occur, soak up the moisture with a dry towel (paper towels are fine) and allow the shoes to dry naturally. Then ‘restore’ the suede by brushing with an old toothbrush or rubbing with a clean towel.</li></ul>",
+            "page": "",
+            "custom_liquid": ""
+          }
+        },
+        "collapsible_tab_49K6wa": {
+          "type": "collapsible_tab",
+          "settings": {
+            "heading": "CARING FOR NUBUCK",
+            "open": false,
+            "content": "<p>PRIOR TO WEARING, & spraying your shoes with a water repellent and stain repellent can help minimise any initial staining (please note that this may alter the colour of the nubuck).</p><p>TO CLEAN FitFlop nubuck shoes – because nubuck is a leather that has been buffed and therefore does not have its own protective barrier, we recommend that you try to avoid getting these shoes dirty, because they can be extremely difficult to clean. To maintain nubuck you should apply a protectant product at least once every six months. If by any chance you do get your nubuck shoes dirty, there are special cleaners that may help to remove dirt and stains, and nubuck brushes to restore the nap. Avoid products designed for leather.</p><p>IT’S IMPORTANT TO AVOID GETTING YOUR NUBUCK SHOES WET, because it is a buffed leather, with no protective barrier. If your nubuck shoes do get & wet, stuff them with newspaper and let them dry naturally – away from direct heat or sunlight – for at least 24 hours.</p>",
+            "page": "",
+            "custom_liquid": ""
+          }
+        },
+        "collapsible_tab_y46c3z": {
+          "type": "collapsible_tab",
+          "settings": {
+            "heading": "CARING FOR SHEEPSKIN/SHEARLING",
+            "open": false,
+            "content": "<p>TO CLEAN & sheepskin FitFlop boots (eg Mukluks), shoes, sneakers or slippers, use a specialist cleaner and conditioner...</p><p>Avoid products designed for leather.</p><p>IF YOUR SHEEPSKIN BOOTS OR SHOES GET WET, & stuff them with newspaper and let them dry naturally...</p>",
+            "page": "",
+            "custom_liquid": ""
+          }
+        },
+        "collapsible_tab_jFkxCR": {
+          "type": "collapsible_tab",
+          "settings": {
+            "heading": "CARING FOR FAUX-LEATHER (INCLUDING PATENT FAUX-LEATHER)",
+            "open": false,
+            "content": "<p>TO CLEAN & faux-leather FitFlop shoes, remove any dirt with a soft damp cloth.</p><p>IF YOUR FAUX-LEATHER SHOES GET WET, wipe off the excess water with a cloth.</p>",
+            "page": "",
+            "custom_liquid": ""
+          }
+        },
+        "collapsible_tab_aCECy8": {
+          "type": "collapsible_tab",
+          "settings": {
+            "heading": "CARING FOR KNIT FABRICS (E.G. ÜBERKNIT™)",
+            "open": false,
+            "content": "<p>TO CLEAN & FitFlop shoes in a knit fabric, it’s important to take extra care...</p><ul><li>To avoid risk of damage...</li><li>Do not use bleach or detergent.</li><li>Make sure you use cold water...</li><li>Always wash by hand...</li></ul>",
+            "page": "",
+            "custom_liquid": ""
+          }
+        },
+        "collapsible_tab_RXfkJW": {
+          "type": "collapsible_tab",
+          "settings": {
+            "heading": "CARING FOR FELT",
+            "open": false,
+            "content": "<p>IT’S IMPORTANT TO AVOID GETTING YOUR FELT SHOES WET...</p><p>TO CLEAN & FitFlop felt clogs or shoes – because felt is a delicate material...</p>",
+            "page": "",
+            "custom_liquid": ""
+          }
+        }
+      },
+      "block_order": [
+        "collapsible_tab_rFX3Mk",
+        "collapsible_tab_jgg6NV",
+        "collapsible_tab_7PBjdW",
+        "collapsible_tab_cYRzMq",
+        "collapsible_tab_49K6wa",
+        "collapsible_tab_y46c3z",
+        "collapsible_tab_jFkxCR",
+        "collapsible_tab_aCECy8",
+        "collapsible_tab_RXfkJW"
+      ],
+      "name": "Collapsible content",
+      "settings": {
+        "heading": "",
+        "description": "",
+        "uppercase_heading": true,
+        "disable_top_spacing": true,
+        "disable_bottom_spacing": false
+      }
+    },
+    "rich_text_b4bCdg": {
+      "type": "rich-text",
+      "blocks": {
+        "text_jAtdFp": {
+          "type": "text",
+          "settings": {
+            "text": "<h3>PLEASE NOTE</h3><p>The upper (which is the part above or wrapped around our footwear) can be cleaned and protected with any product that’s designed for use on the specific upper material (leather polish for leather uppers, nubuck spray for nubuck uppers, suede spray for suede uppers).</p><p>As with any leather or suede sandal or shoe, time in the WASHING MACHINE OR DRYER is not recommended (nor is total submersion in water). Not only can the upper material be ruined, the insides – which are often layers of shaping materials, meshes, etc – can deform if they get soaked through.</p><p>Remember that using any cleaner/water repellent/protector may alter the colour of the leather, suede, nubuck (or other material).</p><p>Although it’s tempting to wear your favourite FitFlop shoes all the time, do give them the odd day off if they’re of the ‘enclosed’ variety! This allows them to air out, refresh themselves, and helps leather shoes last longer.</p><p>While we want to help your favourite FitFlop footwear stay in tip-top shape, these care tips are merely suggestions and we make no guarantee that they will restore your shoes to their original condition or won’t alter them in some way. Some materials are particularly tricky to clean – so ultimately, the only way to ensure they stay pristine is to prevent them from getting dirty or wet. (Avoid splashing about in the rain in anything but rubber, or jumping in muddy puddles!).</p>",
+            "custom_liquid": "",
+            "size": "text-size-regular"
+          }
+        }
+      },
+      "block_order": [
+        "text_jAtdFp"
+      ],
+      "name": "Rich text",
+      "settings": {
+        "section_width": "grid",
+        "text_width": "xlarge",
+        "text_position": "center",
+        "text_alignment": "left",
+        "color_bg": "rgba(0,0,0,0)",
+        "color_text": "#151515",
+        "color_links": "#151515",
+        "disable_top_spacing": true,
+        "disable_bottom_spacing": false
+      }
+    }
+  },
+  "order": [
+    "main",
+    "rich_text_nMf3jY",
+    "rich_text_KQ4fyq",
+    "collapsible_content_ghRLiK",
+    "rich_text_b4bCdg"
+  ]
+}

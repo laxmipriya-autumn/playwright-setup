@@ -1,0 +1,160 @@
+/* =========================================================
+   VIDEO SECTION — video.css
+   LCP-optimised: no preload, lazy iframes, clean mobile/desktop split
+   ========================================================= */
+
+/* ----- Base container ------------------------------------- */
+.video-section__container {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  background: #000;
+}
+
+/* ----- Fixed aspect-ratio variants ----------------------- */
+.video-section__container.video-aspect--16-9  { aspect-ratio: 16/9; }
+.video-section__container.video-aspect--9-16  { aspect-ratio: 9/16; }
+.video-section__container.video-aspect--4-3   { aspect-ratio: 4/3;  }
+.video-section__container.video-aspect--3-4   { aspect-ratio: 3/4;  }
+.video-section__container.video-aspect--square{ aspect-ratio: 1/1;  }
+
+/* iframes / videos inside fixed-ratio containers fill the box */
+.video-section__container:not(.video-section__container--adaptive) iframe,
+.video-section__container:not(.video-section__container--adaptive) video,
+.video-section__container:not(.video-section__container--adaptive) .video-player {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  object-fit: cover;
+}
+
+/* ----- Adaptive (custom-height) container ---------------- */
+.video-section__container--adaptive {
+  height: var(--video-desktop-height, 600px);
+}
+
+.video-section__container--adaptive iframe,
+.video-section__container--adaptive video,
+.video-section__container--adaptive .video-player {
+  display: block;
+  width: 100%;
+  height: var(--video-desktop-height, 600px);
+  object-fit: cover;
+}
+
+/* ----- Mobile / Desktop video toggle --------------------- */
+/*
+  We now emit <video class="video-player video-desktop"> and
+  <video class="video-player video-mobile"> directly (no wrapper
+  divs), so display toggling targets the elements themselves.
+*/
+.video-player.video-mobile  { display: none; }
+.video-player.video-desktop { display: block; }
+
+/* ----- Clickable video overlay --------------------------- */
+.video-section__container--clickable { cursor: pointer; }
+
+.video-overlay-link {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  transition: background 0.3s ease;
+}
+
+.video-overlay-link:hover { background: rgba(0, 0, 0, 0.1); }
+
+.video-link-indicator {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  width: 48px;
+  height: 48px;
+  background: rgba(0, 0, 0, 0.7);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  opacity: 0;
+  transform: scale(0.8);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  pointer-events: none;
+}
+
+.video-section__container--clickable:hover .video-link-indicator {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* ----- Overflow guard ------------------------------------ */
+.video-section,
+.video-section__inner { overflow-x: hidden; }
+
+/* ----- Full-width layout adjustments -------------------- */
+.full-width-row .video-section,
+.full-width-row-full .video-section {
+  margin-left: calc(-50vw + 50%);
+}
+
+.full-width-row-full .video-section { padding: 0; }
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+/* --- Desktop (≥ 769px) ----------------------------------- */
+@media screen and (min-width: 769px) {
+  .video-section__container--adaptive {
+    height: var(--video-desktop-height, 600px);
+  }
+
+  .video-section__container--adaptive iframe,
+  .video-section__container--adaptive video,
+  .video-section__container--adaptive .video-player {
+    height: var(--video-desktop-height, 600px) !important;
+  }
+
+  /* Adaptive iframes need explicit positioning on desktop */
+  .video-section__container--adaptive iframe {
+    position: relative !important;
+    width: 100% !important;
+  }
+}
+
+/* --- Mobile (≤ 768px) ------------------------------------ */
+@media screen and (max-width: 768px) {
+  /* Swap desktop ↔ mobile video elements */
+  .video-player.video-desktop { display: none; }
+  .video-player.video-mobile  { display: block; }
+
+  .video-section__container--adaptive {
+    height: var(--video-mobile-height, 400px);
+  }
+
+  .video-section__container--adaptive video,
+  .video-section__container--adaptive .video-player {
+    height: var(--video-mobile-height, 400px) !important;
+    width: 100%;
+    object-fit: cover;
+  }
+
+  .video-section__container--adaptive iframe {
+    height: var(--video-mobile-height, 400px) !important;
+    width: 100% !important;
+  }
+
+  /* Shrink link indicator on mobile – always slightly visible */
+  .video-link-indicator {
+    width: 40px;
+    height: 40px;
+    top: 15px;
+    right: 15px;
+    opacity: 0.8;
+  }
+}

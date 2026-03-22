@@ -1,0 +1,108 @@
+        .related-swatches-container {
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            max-width: 100%;
+            width: 100%;
+        }
+
+        .related-swatches-slider {
+            flex: 1;
+            overflow: hidden;
+            position: relative;
+            min-width: 0;
+            /* Important for flex child overflow */
+            max-width: 240px;
+            /* Show max 4 swatches (60px each) */
+        }
+
+        .related-swatches-track {
+            display: flex;
+            gap: 10px;
+            transition: transform 0.3s ease;
+            will-change: transform;
+        }
+
+        .related-swatches__item {
+            flex: 0 0 auto;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: 2px solid #ddd;
+            padding: 3px;
+            background: #fff;
+        }
+
+        .related-swatches__item:hover {
+            border-color: #666;
+        }
+
+        .related-swatches__item.is-active {
+            border-color: #000;
+        }
+
+        .related-swatches__item img {
+            display: block;
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 3px;
+        }
+
+        .related-swatches__dot {
+            display: block;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .swatches-nav {
+            flex: 0 0 32px;
+            width: 32px;
+            height: 32px;
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 50%;
+            cursor: pointer;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            color: #000;
+            transition: all 0.2s;
+            padding: 0;
+            z-index: 2;
+            user-select: none;
+        }
+
+        .swatches-nav.visible {
+            display: flex !important;
+        }
+
+        .swatches-nav:hover:not(:disabled) {
+            background: #f5f5f5;
+            border-color: #000;
+        }
+
+        .swatches-nav:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        @media (max-width: 767px) {
+            .related-swatches__item img {
+                width: 50px;
+                height: 50px;
+            }
+
+            .related-swatches__dot {
+                width: 35px;
+                height: 35px;
+            }
+
+            .related-swatches-track {
+                gap: 8px;
+            }
+        }

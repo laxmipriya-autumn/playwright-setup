@@ -1,0 +1,148 @@
+<footer class="footer">
+  <div class="footer__content">
+    {% for block in section.blocks %}
+      {% case block.type %}
+
+        {%- when 'payment_icons' -%}
+          <div class="footer__payment-icons">
+            <div class="footer__payment-row">
+              {% if block.settings.title != blank %}
+                <p class="footer__payment-title">{{ block.settings.title }}</p>
+              {% endif %}
+              <div class="footer__payment-list">
+                {% for sub_block in section.blocks %}
+                  {% if sub_block.type == 'payment_icon' %}
+                    {% if sub_block.settings.svg_code != blank %}
+                      {% if sub_block.settings.link != blank %}
+                        <a href="{{ sub_block.settings.link }}" target="_blank" rel="noopener" class="footer__payment-link">
+                          <div class="footer__payment-icon-wrapper">
+                            {{ sub_block.settings.svg_code }}
+                          </div>
+                        </a>
+                      {% else %}
+                        <div class="footer__payment-icon-wrapper">
+                          {{ sub_block.settings.svg_code }}
+                        </div>
+                      {% endif %}
+                    {% endif %}
+                  {% endif %}
+                {% endfor %}
+              </div>
+            </div>
+          </div>
+
+        {% endcase %}
+    {% endfor %}
+  </div>
+</footer>
+
+<style>
+ .footer__payment-icons {
+    padding-right: 50px;
+  }
+
+  .footer__payment-row {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+  }
+
+  .footer__payment-title {
+    margin: 0;
+    white-space: nowrap;
+  }
+
+  .footer__payment-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap:8px;
+    align-items: center;
+  }
+
+  .footer__payment-icon-wrapper svg {
+    height: 20px;
+    width: auto;
+    display: block;
+    transition: transform 0.2s ease;
+  }
+
+  .footer__payment-link:hover svg {
+    transform: scale(1.1);
+  }
+  @media screen and (max-width: 750px){
+  .footer__payment-row {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    margin-left: 20px;
+  }
+  .footer__payment-title {
+    margin: 0;
+    white-space: nowrap;
+    font-size:13px;
+  }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Footer",
+  "blocks": [
+    {
+      "type": "payment_icons",
+      "name": "Payment Icons Group",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Heading",
+          "default": "We accept"
+        }
+      ]
+    },
+    {
+      "type": "payment_icon",
+      "name": "Payment Icon",
+      "settings": [
+        {
+          "type": "textarea",
+          "id": "svg_code",
+          "label": "SVG Code",
+          "default": "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 50 30'><rect width='50' height='30' fill='#ccc'/></svg>"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Icon Link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Footer with SVG Payment Icons",
+      "blocks": [
+        {
+          "type": "payment_icons"
+        },
+        {
+          "type": "payment_icon"
+        },
+        {
+          "type": "payment_icon"
+        },
+        {
+          "type": "payment_icon"
+        },
+        {
+          "type": "payment_icon"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

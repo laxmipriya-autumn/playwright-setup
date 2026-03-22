@@ -1,0 +1,533 @@
+{%- unless product_card_swatches_assets_loaded -%}
+  {%- assign product_card_swatches_assets_loaded = true -%}
+  {{ 'product-card-swatches.css' | asset_url | stylesheet_tag }}
+{%- endunless -%}
+
+{%- if settings.show_products_swatches -%}
+  {%- assign swatch_style = settings.swatch_style -%}
+
+  {% if product.metafields.custom.related_swatches.value != blank %}
+    <div class="product-card-swatches--container no-js-hidden">
+      <div class="product-card-swatches-wrapper">
+        <button class="swatch-nav-button prev" type="button" aria-label="Previous colors">
+          <svg viewBox="0 0 24 24">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </button>
+        <div class="product-card-swatches product-card-swatches--{{ settings.swatch_style }}" data-type="related">
+          <div class="swatches-slider-track">
+            {%- for related_product in product.metafields.custom.related_swatches.value -%}
+              {%- if related_product != blank -%}
+                {%- liquid
+                  assign active = ''
+                  if related_product.id == product.id
+                    assign active = 'active'
+                  elsif forloop.first and product.id == blank
+                    assign active = 'active'
+                  endif
+
+                  assign variant_image = related_product.featured_image
+                  assign secondary_image = blank
+                  if related_product.images.size > 0
+                    assign secondary_image = related_product.images[1]
+                  else
+                    assign secondary_image = related_product.featured_image
+                  endif
+
+                  assign variant_url = related_product.url
+                  assign swatch_image = related_product.featured_image | image_url: width: 80
+                  assign color_code = related_product.metafields.custom.colour_code
+
+                  if color_code == blank
+                    assign primary_colour = related_product.metafields.custom.primary_colour | downcase | strip
+
+                    if primary_colour == 'tan'
+                      assign color_code = '#C7A98B'
+                    elsif primary_colour == 'black'
+                      assign color_code = '#2B2B2B'
+                    elsif primary_colour == 'brown'
+                      assign color_code = '#8B7355'
+                    elsif primary_colour == 'blue'
+                      assign color_code = '#7B92A8'
+                    elsif primary_colour == 'beige'
+                      assign color_code = '#D9CAB3'
+                    elsif primary_colour == 'green'
+                      assign color_code = '#8B9A7B'
+                    elsif primary_colour == 'white'
+                      assign color_code = '#F5F3F0'
+                    elsif primary_colour == 'grey' or primary_colour == 'gray'
+                      assign color_code = '#9B9B9B'
+                    elsif primary_colour == 'orange'
+                      assign color_code = '#C6956B'
+                    elsif primary_colour == 'red'
+                      assign color_code = '#A56B6B'
+                    elsif primary_colour == 'pink'
+                      assign color_code = '#C9A0A0'
+                    elsif primary_colour == 'purple'
+                      assign color_code = '#9B8BA4'
+                    elsif primary_colour == 'silver'
+                      assign color_code = '#B8B8B8'
+                    elsif primary_colour == 'gold'
+                      assign color_code = '#C4A968'
+                    elsif primary_colour == 'yellow'
+                      assign color_code = '#D4BC87'
+                    else
+                      assign color_code = ''
+                    endif
+                  endif
+
+                  assign color_display_name = ''
+                  for option in related_product.options_with_values
+                    assign option_name = option.name | downcase
+                    if option_name contains 'color' or option_name contains 'colour'
+                      assign color_display_name = option.values[0]
+                      break
+                    endif
+                  endfor
+
+                  if color_display_name == blank
+                    assign color_display_name = related_product.title
+                  endif
+                -%}
+
+                {%- capture srcset -%}
+                  {%- if variant_image != blank -%}
+                    {{ variant_image | image_url: width: 165 }} 165w,
+                    {{ variant_image | image_url: width: 360 }} 360w,
+                    {{ variant_image | image_url: width: 533 }} 533w,
+                    {{ variant_image | image_url: width: 720 }} 720w,
+                    {{ variant_image | image_url: width: 940 }} 940w,
+                    {{ variant_image | image_url: width: 1066 }} 1066w
+                  {%- endif -%}
+                {%- endcapture -%}
+
+                {%- capture secondary_srcset -%}
+                  {%- if secondary_image != blank -%}
+                    {{ secondary_image | image_url: width: 165 }} 165w,
+                    {{ secondary_image | image_url: width: 360 }} 360w,
+                    {{ secondary_image | image_url: width: 533 }} 533w,
+                    {{ secondary_image | image_url: width: 720 }} 720w,
+                    {{ secondary_image | image_url: width: 940 }} 940w,
+                    {{ secondary_image | image_url: width: 1066 }} 1066w
+                  {%- endif -%}
+                {%- endcapture -%}
+
+                {% assign l = srcset | size | minus: 1 %}
+                {% assign l2 = secondary_srcset | size | minus: 1 %}
+
+                <button
+                  type="button"
+                  class="product-card-swatch {{ active }}"
+                  style="--swatch-image: url('{{ swatch_image }}'); {% if color_code != blank %}--swatch-color: {{ color_code }};{% endif %}"
+                  data-srcset="{{ srcset | slice: 0, l | strip_newlines }}"
+                  data-secondary-srcset="{{ secondary_srcset | slice: 0, l2 | strip_newlines }}"
+                  data-href="{{ variant_url }}"
+                  data-product-id="{{ related_product.id }}"
+                  data-product-title="{{ related_product.title | escape }}"
+                  data-color-name="{{ color_display_name | escape }}"
+                  data-available="true"
+                  aria-label="{{ color_display_name }}"
+                >
+                  <span class="product-card-swatch-tooltip">{{ color_display_name }}</span>
+                  <span class="visually-hidden">{{ color_display_name }}</span>
+                </button>
+              {%- endif -%}
+            {%- endfor -%}
+          </div>
+        </div>
+        <button class="swatch-nav-button next" type="button" aria-label="Next colors">
+          <svg viewBox="0 0 24 24">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </button>
+      </div>
+    </div>
+  {% else %}
+    {%- unless product.has_only_default_variant -%}
+      {%- for option in product.options_with_values -%}
+        {%- liquid
+          assign option_name = option.name | downcase | escape
+          assign color_swatch = false
+
+          if option_name contains 'color' or option_name contains 'colour' or option_name contains 'couleur' or option_name contains 'farbe'
+            assign color_swatch = true
+          endif
+
+          assign color_swatches_variant_option = settings.color_swatches_variant_option | downcase | split: ', '
+
+          if color_swatches_variant_option contains option_name
+            assign color_swatch = true
+          endif
+        -%}
+
+        {%- if color_swatch -%}
+          {%- liquid
+            assign color_index = forloop.index0
+            assign custom_colors = settings.color_swatches | newline_to_br | split: '<br />'
+            assign key_array = ''
+            assign val_array = ''
+
+            for color in custom_colors
+              assign key = color | split: ':' | first | rstrip
+              assign value = color | split: ':' | last | lstrip
+              assign key_array = key_array | append: ',' | append: key
+              assign val_array = val_array | append: ',' | append: value
+            endfor
+
+            assign key_array = key_array | remove_first: ',' | strip_newlines | downcase | split: ','
+            assign val_array = val_array | remove_first: ',' | split: ','
+          -%}
+
+          {% if option.values.size > 1 %}
+            <div class="product-card-swatches--container no-js-hidden">
+              <div class="product-card-swatches-wrapper">
+                <button class="swatch-nav-button prev" type="button" aria-label="Previous colors">
+                  <svg viewBox="0 0 24 24">
+                    <polyline points="9 18 15 12 9 6"></polyline>
+                  </svg>
+                </button>
+                <div
+                  class="product-card-swatches product-card-swatches--{{ settings.swatch_style }}"
+                  data-index="{{ color_index }}"
+                >
+                  <div class="swatches-slider-track">
+                    {%- for value in option.values -%}
+                      {%- liquid
+                        assign has_available_variant = false
+                        for variant in product.variants
+                          if variant.title contains value and variant.available
+                            assign has_available_variant = true
+                            break
+                          endif
+                        endfor
+                      -%}
+
+                      {%- if has_available_variant -%}
+                        {%- liquid
+                          assign active = ''
+                          assign variant_image = blank
+                          assign secondary_image = blank
+                          assign variant_url = ''
+                          assign srcset = ''
+                          assign secondary_srcset = ''
+                          assign variant_title = ''
+
+                          if forloop.first
+                            assign active = 'active'
+                          endif
+
+                          for variant in product.variants
+                            if variant.title contains value
+                              if variant.image
+                                assign variant_image = variant.image
+                                assign current_position = variant.image.position
+                                for img in product.images
+                                  if img.position > current_position
+                                    assign secondary_image = img
+                                    break
+                                  endif
+                                endfor
+
+                                if secondary_image == blank
+                                  assign secondary_image = variant.image
+                                endif
+                              endif
+                              assign variant_url = variant.url
+                              assign variant_title = product.title | append: ' - ' | append: value
+                              break
+                            endif
+                          endfor
+                        -%}
+
+                        {%- capture srcset -%}
+                          {%- if variant_image != blank -%}
+                            {{ variant_image | image_url: width: 165 }} 165w,
+                            {{ variant_image | image_url: width: 360 }} 360w,
+                            {{ variant_image | image_url: width: 533 }} 533w,
+                            {{ variant_image | image_url: width: 720 }} 720w,
+                            {{ variant_image | image_url: width: 940 }} 940w,
+                            {{ variant_image | image_url: width: 1066 }} 1066w
+                          {%- endif -%}
+                        {%- endcapture -%}
+
+                        {%- capture secondary_srcset -%}
+                          {%- if secondary_image != blank -%}
+                            {{ secondary_image | image_url: width: 165 }} 165w,
+                            {{ secondary_image | image_url: width: 360 }} 360w,
+                            {{ secondary_image | image_url: width: 533 }} 533w,
+                            {{ secondary_image | image_url: width: 720 }} 720w,
+                            {{ secondary_image | image_url: width: 940 }} 940w,
+                            {{ secondary_image | image_url: width: 1066 }} 1066w
+                          {%- endif -%}
+                        {%- endcapture -%}
+
+                        {% assign l = srcset | size | minus: 1 %}
+                        {% assign l2 = secondary_srcset | size | minus: 1 %}
+
+                        {%- liquid
+                          assign color_value = value | downcase | escape
+                          assign swatch_bg = ''
+
+                          for custom_color in key_array
+                            if custom_color == color_value
+                              assign color_value = val_array[forloop.index0]
+                            endif
+                          endfor
+
+                          assign bg_value = ''
+                          if color_value contains '.'
+                            assign bg_value = color_value | file_url
+                            assign color_value = 'var(--bg-body)'
+                          endif
+
+                          if variant_image != blank
+                            assign swatch_bg = variant_image | image_url: width: 80
+                          endif
+
+                          if value.swatch.image
+                            assign bg_value = value.swatch.image | image_url: width: 40
+                          elsif value.swatch.color
+                            assign color_value = 'rgb(' | append: value.swatch.color.rgb | append: ')'
+                          endif
+                        -%}
+
+                        <button
+                          type="button"
+                          class="product-card-swatch {{ active }}"
+                          style="--swatch-image: url('{{ swatch_bg }}'); --option-color: {{ color_value | downcase | escape }}; {%- if bg_value -%} --option-color-image: url('{{ bg_value | escape }}');{%- endif -%}"
+                          data-srcset="{{ srcset | slice: 0, l | strip_newlines }}"
+                          data-secondary-srcset="{{ secondary_srcset | slice: 0, l2 | strip_newlines }}"
+                          data-href="{{ variant_url }}"
+                          data-product-title="{{ variant_title | escape }}"
+                          data-color-name="{{ value | escape }}"
+                          aria-label="{{ value }}"
+                        >
+                          <span class="product-card-swatch-tooltip">{{ value }}</span>
+                          <span class="visually-hidden">{{ value }}</span>
+                        </button>
+                      {%- endif -%}
+                    {%- endfor -%}
+                  </div>
+                </div>
+                <button class="swatch-nav-button next" type="button" aria-label="Next colors">
+                  <svg viewBox="0 0 24 24">
+                    <polyline points="9 18 15 12 9 6"></polyline>
+                  </svg>
+                </button>
+              </div>
+            </div>
+          {% endif %}
+          {% break %}
+        {%- endif -%}
+      {%- endfor -%}
+    {%- endunless -%}
+  {% endif %}
+{%- endif -%}
+
+{%- unless product_card_swatches_inline_js -%}
+  {%- assign product_card_swatches_inline_js = true -%}
+  <script>
+    (() => {
+      if (window.__swatchScrollBound) return;
+      window.__swatchScrollBound = true;
+      const STEP_DEFAULT = 56; // ~40px swatch + gap
+
+      function bind(container) {
+        if (!container || container.__swatchBound === true) return;
+        container.__swatchBound = true;
+
+        const track = container.querySelector('.swatches-slider-track');
+        if (!track) return;
+        const prev = container.querySelector('.swatch-nav-button.prev');
+        const next = container.querySelector('.swatch-nav-button.next');
+        prev?.removeAttribute('disabled');
+        next?.removeAttribute('disabled');
+        const getStep = () => {
+          const firstVisible = Array.from(track.querySelectorAll('.product-card-swatch')).find((swatch) => {
+            const rect = swatch.getBoundingClientRect();
+            return rect.width > 0 && rect.height > 0;
+          });
+          if (!firstVisible) return STEP_DEFAULT;
+
+          const rect = firstVisible.getBoundingClientRect();
+          const styles = window.getComputedStyle(track);
+          const gap = parseFloat(styles.columnGap || styles.gap || '8') || 8;
+          return Math.max(1, Math.round(rect.width + gap));
+        };
+
+        const getMaxScroll = () => Math.max(0, track.scrollWidth - track.clientWidth - 1);
+        const getClampedScroll = (left) => Math.max(0, Math.min(left, getMaxScroll()));
+
+        const updateButtons = () => {
+          if (track.clientWidth <= 1) {
+            prev?.classList.add('hide');
+            next?.classList.add('hide');
+            prev?.classList.add('disabled');
+            next?.classList.add('disabled');
+            return;
+          }
+
+          const max = getMaxScroll();
+          if (max <= 0) {
+            prev?.classList.add('hide');
+            next?.classList.add('hide');
+            prev?.classList.add('disabled');
+            next?.classList.add('disabled');
+            return;
+          }
+          prev?.classList.remove('hide');
+          next?.classList.remove('hide');
+          const atStart = track.scrollLeft <= 1;
+          const atEnd = track.scrollLeft >= max;
+
+          prev?.classList.toggle('disabled', atStart);
+          next?.classList.toggle('disabled', atEnd);
+        };
+
+        const scrollByOneItem = (direction) => {
+          const items = Array.from(track.querySelectorAll('.product-card-swatch'));
+          if (!items.length) return;
+
+          const viewportLeft = track.scrollLeft;
+          const viewportRight = viewportLeft + track.clientWidth;
+          let targetLeft = viewportLeft;
+
+          if (direction === 'next') {
+            const nextItem = items.find((item) => (item.offsetLeft + item.offsetWidth) > (viewportRight + 1));
+            if (nextItem) {
+              targetLeft = nextItem.offsetLeft;
+            } else {
+              targetLeft = getClampedScroll(viewportLeft + getStep());
+            }
+          } else {
+            const prevCandidates = items.filter((item) => item.offsetLeft < (viewportLeft - 1));
+            const prevItem = prevCandidates.length ? prevCandidates[prevCandidates.length - 1] : null;
+            if (prevItem) {
+              targetLeft = prevItem.offsetLeft;
+            } else {
+              targetLeft = getClampedScroll(viewportLeft - getStep());
+            }
+          }
+
+          const clamped = getClampedScroll(targetLeft);
+          track.scrollTo({ left: clamped, behavior: 'smooth' });
+
+          // Fallback for environments where smooth scroll occasionally fails.
+          window.setTimeout(() => {
+            if (Math.abs(track.scrollLeft - clamped) < 1) return;
+            track.scrollLeft = clamped;
+          }, 180);
+        };
+
+        container.__swatchScrollByOneItem = scrollByOneItem;
+        container.__swatchUpdateButtons = updateButtons;
+
+        prev?.addEventListener('click', (e) => {
+          e.preventDefault();
+          if (prev.classList.contains('disabled')) return;
+          scrollByOneItem('prev');
+        });
+        next?.addEventListener('click', (e) => {
+          e.preventDefault();
+          if (next.classList.contains('disabled')) return;
+          scrollByOneItem('next');
+        });
+        track.addEventListener('scroll', updateButtons, { passive: true });
+        window.addEventListener('resize', updateButtons, { passive: true });
+        if (window.ResizeObserver) {
+          const ro = new ResizeObserver(() => updateButtons());
+          ro.observe(track);
+          container.__swatchResizeObserver = ro;
+        }
+
+        // Always start from the first swatch so previous button is disabled initially.
+        track.scrollLeft = 0;
+        updateButtons();
+        window.setTimeout(updateButtons, 60);
+        window.setTimeout(updateButtons, 180);
+        window.setTimeout(updateButtons, 420);
+      }
+
+      const init = (root = document) => {
+        if (root.matches && root.matches('.product-card-swatches--container')) {
+          bind(root);
+        }
+
+        if (root.querySelectorAll) {
+          root.querySelectorAll('.product-card-swatches--container').forEach(bind);
+        }
+      };
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+      } else {
+        init();
+      }
+
+      if (window.MutationObserver) {
+        const pendingNodes = new Set();
+        let frameRequested = false;
+
+        const flush = () => {
+          frameRequested = false;
+          pendingNodes.forEach((node) => init(node));
+          pendingNodes.clear();
+        };
+
+        new MutationObserver((mutations) => {
+          mutations.forEach((mutation) => {
+            mutation.addedNodes.forEach((node) => {
+              if (node && node.nodeType === 1) {
+                pendingNodes.add(node);
+              }
+            });
+          });
+
+          if (pendingNodes.size && !frameRequested) {
+            frameRequested = true;
+            requestAnimationFrame(flush);
+          }
+        }).observe(document.body, { childList: true, subtree: true });
+      }
+
+      // Fail-safe delegated click handling for cards that are cloned/re-rendered.
+      if (!window.__swatchNavDelegatedBound) {
+        window.__swatchNavDelegatedBound = true;
+        document.addEventListener('click', (event) => {
+          const button = event.target.closest('.swatch-nav-button');
+          if (!button) return;
+
+          const container = button.closest('.product-card-swatches--container');
+          if (!container) return;
+
+          const track = container.querySelector('.swatches-slider-track');
+          if (!track) return;
+
+          event.preventDefault();
+
+          const direction = button.classList.contains('next') ? 'next' : 'prev';
+          if (typeof container.__swatchScrollByOneItem === 'function') {
+            container.__swatchScrollByOneItem(direction);
+          } else {
+            const firstVisible = Array.from(track.querySelectorAll('.product-card-swatch')).find((swatch) => {
+              const rect = swatch.getBoundingClientRect();
+              return rect.width > 0 && rect.height > 0;
+            });
+            const styles = window.getComputedStyle(track);
+            const gap = parseFloat(styles.columnGap || styles.gap || '8') || 8;
+            const step = firstVisible ? Math.max(1, Math.round(firstVisible.getBoundingClientRect().width + gap)) : STEP_DEFAULT;
+            const max = Math.max(0, track.scrollWidth - track.clientWidth - 1);
+            const target = direction === 'next'
+              ? Math.min(max, track.scrollLeft + step)
+              : Math.max(0, track.scrollLeft - step);
+            track.scrollTo({ left: target, behavior: 'smooth' });
+          }
+
+          if (typeof container.__swatchUpdateButtons === 'function') {
+            window.setTimeout(() => container.__swatchUpdateButtons(), 50);
+          }
+        }, true);
+      }
+    })();
+  </script>
+{%- endunless -%}

@@ -1,0 +1,114 @@
+/* ==============================
+   MAX HEIGHT – INLINE READ MORE/LESS BUTTON
+   ============================== */
+
+max-height {
+  display: block;
+  background-color: var(--bg-body, #fff);
+  padding: 25px;
+  font-size: 0.875rem;
+  position: relative;
+}
+
+/* No background variant */
+.max-height--no-background {
+  padding: 0;
+  background: transparent;
+}
+
+/* Inner container */
+.max-height--inner {
+  position: relative;
+}
+
+.max-height--inner-content {
+  overflow: visible;
+  line-height: 1.6;
+}
+
+.max-height--inner-content > *:last-child {
+  margin-bottom: 0;
+}
+
+/* ✅ INLINE TOGGLE WRAPPER - Makes button appear on same line */
+.inline-toggle-wrapper {
+  display: inline;
+  white-space: nowrap;
+}
+
+/* ✅ Toggle button - INLINE style */
+.max-height--toggle {
+  display: none;
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+  color: var(--color-accent, #007bff);
+  font-size: inherit;
+  font-family: inherit;
+  text-decoration: underline;
+  white-space: nowrap;
+  vertical-align: baseline;
+  line-height: inherit;
+}
+
+/* Show toggle when needed */
+max-height.has-overflow .max-height--toggle {
+  display: inline;
+}
+
+/* Toggle text states */
+.text-button--read-less {
+  display: none;
+}
+
+.text-button--read-more {
+  display: inline;
+}
+
+/* When expanded */
+max-height.is-expanded .text-button--read-more {
+  display: none;
+}
+
+max-height.is-expanded .text-button--read-less {
+  display: inline;
+}
+
+/* Hover effect */
+.max-height--toggle:hover {
+  opacity: 0.7;
+}
+
+/* Remove any default button styles */
+.max-height--toggle:focus {
+  outline: 2px solid var(--color-accent, #007bff);
+  outline-offset: 2px;
+}
+
+/* Remove margins on rich text elements */
+.max-height .metafield-rich_text_field > *:last-child {
+  margin-bottom: 0;
+}
+
+/* Ensure paragraphs don't break the inline flow */
+.max-height--inner-content p {
+  display: inline;
+  margin: 0;
+}
+
+.max-height--inner-content p + p {
+  margin-left: 0;
+}
+
+/* Handle multiple paragraphs when expanded */
+max-height.is-expanded .max-height--inner-content p {
+  display: block;
+  margin-bottom: 1em;
+}
+
+max-height.is-expanded .max-height--inner-content p:last-child {
+  display: inline;
+  margin-bottom: 0;
+}
