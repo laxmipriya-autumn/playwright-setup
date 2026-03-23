@@ -1,0 +1,22 @@
+{
+  "name": "playwright-setup",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/laxmipriya-autumn/playwright-setup.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/laxmipriya-autumn/playwright-setup/issues"
+  },
+  "homepage": "https://github.com/laxmipriya-autumn/playwright-setup#readme",
+  "description": "",
+  "devDependencies": {
+    "@playwright/test": "^1.58.2",
+    "@types/node": "^25.5.0"
+  }
+}
